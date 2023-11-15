@@ -13,13 +13,14 @@ jobs:
 - job: Build
   displayName: 'Build backend'
   steps:
-  - task: Gradle@3
+  - task: Gradle@2
     inputs:
+      workingDirectory: ''
       gradleWrapperFile: 'gradlew'
-      workingDirectory: '$(system.defaultWorkingDirectory)'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.17'
+      jdkArchitectureOption: 'x64'
       publishJUnitResults: true
       testResultsFiles: '**/TEST-*.xml'
-      tasks: 'clean build'
+      tasks: 'build'

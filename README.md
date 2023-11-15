@@ -7,6 +7,7 @@ The following was discovered as part of building this project:
 The Interview Quiz App is a user-friendly and intuitive platform tailored specifically for conducting interview assessments.
 This application streamlines the interview process by providing a structured quiz format, enabling interviewers to evaluate candidates' knowledge, problem-solving abilities, and relevant skills in a systematic manner.
 
+
 ### Configuration
 
 1. Auth0 Configuration:
@@ -23,6 +24,11 @@ This application streamlines the interview process by providing a structured qui
 - Your favorite IDE (IntelliJ)
 - Docker (version 3.0)
 - Swagger -> http://localhost:8080/swagger-ui/index.html
+
+### Run App from CommandLine
+1. Install JDK 17.0.9(https://www.oracle.com/java/technologies/downloads/#java17)
+2. Set JAVA_HOME Environment Variable for Windows
+3. Execute ./gradlew bootRun
 
 ### Installing
 

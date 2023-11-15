@@ -13,17 +13,19 @@ jobs:
 - job: Build
   displayName: 'Build backend'
   steps:
-  - task: JavaToolInstaller@0
-    inputs:
-      versionSpec: '1.17'
-      jdkArchitectureOption: 'x64'
-      jdkSourceOption: 'PreInstalled'
+#  - task: JavaToolInstaller@0
+#    inputs:
+#      versionSpec: '1.17'
+#      jdkArchitectureOption: 'x64'
+#      jdkSourceOption: 'PreInstalled'
 
   - task: Gradle@2
     inputs:
       workingDirectory: '$(system.defaultWorkingDirectory)'
       gradleWrapperFile: 'gradlew'
       gradleOptions: '-Xmx3072m'
+      javaHomeOption: 'JDKVersion'
+      jdkVersionOption: '1.17'
       publishJUnitResults: true
       testResultsFiles: '**/TEST-*.xml'
       tasks: 'clean build'

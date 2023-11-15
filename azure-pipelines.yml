@@ -21,8 +21,8 @@ jobs:
 
   - task: Gradle@2
     inputs:
-      workingDirectory: '$(system.defaultWorkingDirectory)'
       gradleWrapperFile: 'gradlew'
+      workingDirectory: '$(system.defaultWorkingDirectory)'
       gradleOptions: '-Xmx3072m'
       javaHomeOption: 'JDKVersion'
       jdkVersionOption: '1.17'

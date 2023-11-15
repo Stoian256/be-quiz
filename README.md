@@ -20,7 +20,7 @@ This application streamlines the interview process by providing a structured qui
 ### Prerequisites
 
 - Java JDK (version 17.0.9)
-- Gradle (version 9.0)
+- Gradle (version 8.4)
 - Your favorite IDE (IntelliJ)
 - Docker (version 3.0)
 - Swagger -> http://localhost:8080/swagger-ui/index.html
@@ -29,6 +29,15 @@ This application streamlines the interview process by providing a structured qui
 1. Install JDK 17.0.9(https://www.oracle.com/java/technologies/downloads/#java17)
 2. Set JAVA_HOME Environment Variable for Windows
 3. Execute ./gradlew bootRun
+
+### Generate Docker Container
+1. Install Gradle 8.4 (https://gradle.org/releases/)
+2. Configure your system environment
+   - In File Explorer right-click on the This PC (or Computer) icon, then click Properties -> Advanced System Settings -> Environmental Variables.
+   - Under System Variables select Path, then click Edit. Add an entry for C:\Gradle\gradle-8.4\bin. Click OK to save.
+3. Execute "gradle build"
+4. Execute "docker build -t be-quiz ."
+5. Execute "docker-compose up"
 
 ### Installing
 

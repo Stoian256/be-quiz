@@ -21,3 +21,7 @@ steps:
     publishJUnitResults: false
     #testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
+
+- script: |
+    chmod +x $(System.DefaultWorkingDirectory)/gradlew
+  displayName: 'Set execute permission for gradlew'

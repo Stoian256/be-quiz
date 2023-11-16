@@ -18,8 +18,8 @@ steps:
 
 - task: Gradle@2
   inputs:
-    workingDirectory: $(Build.BuildId)
-    gradleWrapperFile: 'gradlew'
+    workingDirectory: '$(System.DefaultWorkingDirectory)'
+    gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: '1.17'

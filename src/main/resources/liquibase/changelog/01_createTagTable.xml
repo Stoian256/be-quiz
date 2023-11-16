@@ -1,0 +1,24 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="01_createTagTable" author="Silviu Stoian">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="tag"/>
+            </not>
+        </preConditions>
+        <createTable tableName="tag">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="tag_title" type="varchar(255)"/>
+            <column name="date_created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="date_last_modified" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="is_deleted" type="boolean"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>

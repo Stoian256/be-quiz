@@ -18,6 +18,6 @@ steps:
     javaHomeOption: 'JDKVersion'
     jdkVersionOption: 1.17
     jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
+    publishJUnitResults: false
+    #testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'

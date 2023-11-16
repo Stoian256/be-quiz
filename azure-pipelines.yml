@@ -22,7 +22,6 @@ steps:
     gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
     gradleOptions: '-Xmx3072m'
     javaHomeOption: 'JDKVersion'
-    jdkVersionOption: '1.17'
     jdkArchitectureOption: 'x64'
     publishJUnitResults: true
     testResultsFiles: '**/TEST-*.xml'

@@ -1,0 +1,35 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="03_createAnswerTable" author="Silviu Stoian">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="answer"/>
+            </not>
+        </preConditions>
+        <createTable tableName="answer">
+            <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="question_id" type="uuid"/>
+            <column name="answer_content" type="varchar(255)"/>
+            <column name="is_correct_answer" type="boolean"/>
+            <column name="date_created" type="timestamp"/>
+            <column name="created_by" type="varchar(255)"/>
+            <column name="date_last_modified" type="timestamp"/>
+            <column name="last_modified_by" type="varchar(255)"/>
+            <column name="is_deleted" type="boolean"/>
+        </createTable>
+    </changeSet>
+    <changeSet  author="Silviu Stoian"  id="addFK_question_answer">
+        <addForeignKeyConstraint  baseColumnNames="question_id"
+                                  baseTableName="answer"
+                                  constraintName="FK_question_answer"
+                                  referencedColumnNames="id"
+                                  referencedTableName="question"
+                                  onDelete="CASCADE"
+        />
+    </changeSet>
+</databaseChangeLog>

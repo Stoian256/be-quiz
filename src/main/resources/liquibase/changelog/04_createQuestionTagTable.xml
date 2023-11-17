@@ -1,0 +1,34 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="04_createQuestionTagTable" author="Silviu Stoian">
+        <createTable tableName="question_tag">
+            <column name="question_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="tag_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="addFK_questionTag_question" author="Silviu Stoian">
+        <addForeignKeyConstraint baseTableName="question_tag"
+                                 baseColumnNames="question_id"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_questionTag_question"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="addFK_questionTag_tag" author="Silviu Stoian">
+        <addForeignKeyConstraint baseTableName="question_tag"
+                                 baseColumnNames="tag_id"
+                                 referencedTableName="tag"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_questionTag_tag"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

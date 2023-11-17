@@ -19,7 +19,8 @@
                                  baseColumnNames="question_id"
                                  referencedTableName="question"
                                  referencedColumnNames="id"
-                                 constraintName="FK_questionTag_question"/>
+                                 constraintName="FK_questionTag_question"
+                                 onDelete="CASCADE"/>
     </changeSet>
 
     <changeSet id="addFK_questionTag_tag" author="Silviu Stoian">
@@ -27,6 +28,7 @@
                                  baseColumnNames="tag_id"
                                  referencedTableName="tag"
                                  referencedColumnNames="id"
-                                 constraintName="FK_questionTag_tag"/>
+                                 constraintName="FK_questionTag_tag"
+                                 onDelete="CASCADE"/>
     </changeSet>
 </databaseChangeLog>

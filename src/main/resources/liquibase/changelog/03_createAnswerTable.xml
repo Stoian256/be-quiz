@@ -29,6 +29,7 @@
                                   constraintName="FK_question_answer"
                                   referencedColumnNames="id"
                                   referencedTableName="question"
+                                  onDelete="CASCADE"
         />
     </changeSet>
 </databaseChangeLog>

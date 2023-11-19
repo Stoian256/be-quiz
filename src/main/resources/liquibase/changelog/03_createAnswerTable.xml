@@ -14,7 +14,7 @@
                 <constraints primaryKey="true" nullable="false" />
             </column>
             <column name="question_id" type="uuid"/>
-            <column name="answer_content" type="varchar(255)"/>
+            <column name="answer_content" type="text"/>
             <column name="is_correct_answer" type="boolean"/>
             <column name="date_created" type="timestamp"/>
             <column name="created_by" type="varchar(255)"/>

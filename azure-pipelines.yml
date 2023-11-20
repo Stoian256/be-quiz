@@ -9,19 +9,35 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- task: Gradle@2
-  inputs:
-    workingDirectory: '$(System.DefaultWorkingDirectory)'
-    gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
-    gradleOptions: '-Xmx3072m'
-    javaHomeOption: 'JDKVersion'
-    jdkVersionOption: 1.17
-    jdkArchitectureOption: 'x64'
-    publishJUnitResults: true
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'build'
+stages:
+- stage: Build
+  displayName: "Build Stage"
+  jobs:
+  - job: BuildBackend
+    displayName: "Build Backend"
+    steps: 
+    - task: Gradle@2
+      inputs:
+        workingDirectory: '$(System.DefaultWorkingDirectory)'
+        gradleWrapperFile: '$(System.DefaultWorkingDirectory)/gradlew'
+        gradleOptions: '-Xmx3072m'
+        javaHomeOption: 'JDKVersion'
+        jdkVersionOption: 1.17
+        jdkArchitectureOption: 'x64'
+        publishJUnitResults: true
+        testResultsFiles: '**/TEST-*.xml'
+        tasks: 'build'
 
-- script: |
-    chmod +x $(System.DefaultWorkingDirectory)/gradlew
-  displayName: 'Set execute permission for gradlew'
+    - script: |
+        echo "Changing file permissions..."
+        chmod +x $(System.DefaultWorkingDirectory)/gradlew
+      displayName: 'Set execute permission for gradlew'
+    
+  - job: DockerBuild
+    displayName: "Docker build"
+    steps:
+    - task: Docker@2
+      inputs:
+        command: 'build'
+        Dockerfile: '**/Dockerfile'
+        tags: 'backend-quiz-app:$(Build.BuildId)'

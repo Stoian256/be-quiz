@@ -13,7 +13,7 @@
             <column name="id" type="uuid" defaultValueComputed="gen_random_uuid()">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="question_title" type="text"/>
+            <column name="question_body" type="text"/>
             <column name="difficultly" type="smallint"/>
             <column name="date_created" type="timestamp"/>
             <column name="created_by" type="varchar(255)"/>

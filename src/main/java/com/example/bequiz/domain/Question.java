@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name = "question")
 public class Question extends BaseEntity {
 
-    private String questionTitle;
+    private String questionBody;
 
     private Difficulty difficultly;
 

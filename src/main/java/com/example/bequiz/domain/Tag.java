@@ -1,6 +1,7 @@
 package com.example.bequiz.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@QueryEntity
 @Table(name = "tag")
 public class Tag extends BaseEntity {
 

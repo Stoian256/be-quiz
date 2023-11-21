@@ -1,6 +1,7 @@
 package com.example.bequiz.domain;
 
 import com.example.bequiz.utils.Difficulty;
+import com.querydsl.core.annotations.QueryEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@QueryEntity
 @Table(name = "question")
 public class Question extends BaseEntity {
     private String questionTitle;

@@ -1,8 +1,9 @@
 package com.example.bequiz.service;
 
-import com.example.bequiz.domain.QuestionFilters;
+import com.example.bequiz.domain.Answer;
+import com.example.bequiz.domain.Question;
 import com.example.bequiz.domain.Tag;
-import com.example.bequiz.dto.QuestionDTO;
+import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
@@ -21,11 +22,13 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
-
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
     private final QuestionBooleanBuilder questionBooleanBuilder;
@@ -92,5 +95,3 @@ public class QuestionService {
         questionRepository.save(question);
     }
 }
-
-

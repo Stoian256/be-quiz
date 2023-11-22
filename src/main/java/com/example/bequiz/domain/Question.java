@@ -16,6 +16,7 @@ import java.util.List;
 @Entity
 @Table(name = "question")
 public class Question extends BaseEntity {
+    private String questionTitle;
 
     private String questionBody;
 

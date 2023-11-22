@@ -20,7 +20,7 @@ public class Question extends BaseEntity {
 
     private String questionBody;
 
-    private Difficulty difficultly;
+    private Difficulty difficulty;
 
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;

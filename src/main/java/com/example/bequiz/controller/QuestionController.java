@@ -55,4 +55,12 @@ public class QuestionController {
        questionService.editQuestion(id,createQuestionDTO);
     }
 
+
+
+
+    @PutMapping("/updateQuestion{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
+       questionService.editQuestion(id,createQuestionDTO);
+    }
 }

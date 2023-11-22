@@ -15,7 +15,7 @@ public class QuestionBooleanBuilder {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         if (questionFilters.getKeyword() != null) {
-            booleanBuilder.and(QQuestion.question.questionBody.containsIgnoreCase(questionFilters.getKeyword()));
+            booleanBuilder.and(QQuestion.question.questionTitle.containsIgnoreCase(questionFilters.getKeyword()));
         }
 
         if (questionFilters.getDifficulty() != null) {

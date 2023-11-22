@@ -13,6 +13,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class QuestionDTO {
     private UUID id;
+    private String questionTitle;
     private String questionBody;
     private Difficulty difficultly;
     private List<AnswerDTO> answers;

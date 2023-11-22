@@ -13,6 +13,7 @@ public class EntitiesMapper {
     public QuestionDTO questionToQuestionDTO(Question question) {
         return QuestionDTO.builder()
                 .id(question.getId())
+                .questionTitle(question.getQuestionTitle())
                 .questionBody(question.getQuestionBody())
                 .difficultly(question.getDifficultly())
                 .answers(question.getAnswers().stream().map(this::answerToAnswerDTO).toList())

@@ -25,6 +25,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
+
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
     private final QuestionBooleanBuilder questionBooleanBuilder;
@@ -52,8 +53,6 @@ public class QuestionService {
     }
     private final TagRepository tagRepository;
 
-
-
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         return tagList.stream()
@@ -77,11 +76,12 @@ public class QuestionService {
 
     @Transactional
     public void createQuestion(CreateQuestionDTO questionDTO) {
-        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficultly());
+        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty());
         List<Answer> answersList = questionDTO.getAnswers();
         Question question = Question.builder()
-                .difficultly(difficulty)
+                .difficulty(difficulty)
                 .questionBody(questionDTO.getQuestionBody())
+                .questionTitle(questionDTO.getQuestionTitle())
                 .answers(answersList)
                 .tags(processTags(questionDTO.getTags()))
                 .isDeleted(false)

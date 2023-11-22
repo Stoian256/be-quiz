@@ -19,9 +19,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/questions")
 public class QuestionController {
+
     private final QuestionService questionService;
-
-
 
     @PostMapping("/createQuestion")
     @ResponseStatus(HttpStatus.CREATED)

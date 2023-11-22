@@ -4,4 +4,5 @@
     <include file="changelog/03_createAnswerTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/04_createQuestionTagTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/05_addQuestionTitleColumn.xml" relativeToChangelogFile="true" />
+    <include file="changelog/06_renameQuestionDifficultyColumn.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

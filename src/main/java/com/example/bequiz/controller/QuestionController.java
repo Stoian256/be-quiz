@@ -2,7 +2,6 @@ package com.example.bequiz.controller;
 
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
-import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.service.QuestionService;
 import com.example.bequiz.utils.Difficulty;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,8 +24,8 @@ public class QuestionController {
 
     @PostMapping("/createQuestion")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO){
-        questionService.createQuestion(createQuestionDTO);
+    public QuestionDTO createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO){
+        return questionService.createQuestion(createQuestionDTO);
     }
 
     @GetMapping

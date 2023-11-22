@@ -2,14 +2,14 @@ package com.example.bequiz.service;
 
 import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
+import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuestionDTO;
+import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
 import jakarta.transaction.Transactional;
-import com.example.bequiz.repository.TagRepository;
-import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +49,6 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
-    private final TagRepository tagRepository;
 
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
@@ -78,8 +72,8 @@ public class QuestionService {
     }
 
     @Transactional
-    public void createQuestion(CreateQuestionDTO questionDTO) {
-        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty());
+    public QuestionDTO createQuestion(CreateQuestionDTO questionDTO) {
+        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty().toUpperCase());
         List<Answer> answersList = questionDTO.getAnswers();
         Question question = Question.builder()
                 .difficulty(difficulty)
@@ -91,7 +85,6 @@ public class QuestionService {
                 .build();
 
         answersList.forEach(answer -> answer.setQuestion(question));
-
-        questionRepository.save(question);
+      return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
 }

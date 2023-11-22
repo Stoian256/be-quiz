@@ -44,6 +44,7 @@ public class QuestionService {
 
     @Transactional
     public void createQuestion(CreateQuestionDTO questionDTO) {
+
         Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty());
         List<Answer> answersList = questionDTO.getAnswers();
         Question question = Question.builder()

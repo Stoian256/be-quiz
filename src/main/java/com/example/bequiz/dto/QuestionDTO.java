@@ -15,7 +15,7 @@ public class QuestionDTO {
     private UUID id;
     private String questionTitle;
     private String questionBody;
-    private Difficulty difficultly;
+    private Difficulty difficulty;
     private List<AnswerDTO> answers;
     private List<TagDTO> tags;
     private LocalDateTime dateCreated;

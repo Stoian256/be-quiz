@@ -39,7 +39,6 @@ public class QuestionService {
 
         Sort defaultSort = Sort.by(Sort.Direction.DESC, "dateLastModified", "dateCreated");
 
-
         return questionRepository
                 .findAll(questionBooleanBuilder.buildBooleanFromQuestionFilters(questionFilters),
                         pageRequest.withSort(defaultSort))

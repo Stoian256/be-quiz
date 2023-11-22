@@ -17,9 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
-import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -57,6 +55,25 @@ public class QuestionService {
                 .map(entitiesMapper::questionToQuestionDTO);
     }
 
+
+    @Transactional
+    public QuestionDTO createQuestion(CreateQuestionDTO questionDTO) {
+        entitiesValidator.validateCreateQuestionDTO(questionDTO);
+        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty().toUpperCase());
+        List<Answer> answersList = questionDTO.getAnswers().stream().map(entitiesMapper::createAnswerDTOToAnswer).toList();
+        Question question = Question.builder()
+                .difficulty(difficulty)
+                .questionBody(questionDTO.getQuestionBody())
+                .questionTitle(questionDTO.getQuestionTitle())
+                .answers(answersList)
+                .tags(processTags(questionDTO.getTags()))
+                .isDeleted(false)
+                .build();
+
+        answersList.forEach(answer -> answer.setQuestion(question));
+
+        return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
+    }
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         return tagList.stream()
@@ -79,25 +96,6 @@ public class QuestionService {
     }
 
     @Transactional
-    public QuestionDTO createQuestion(CreateQuestionDTO questionDTO) {
-        entitiesValidator.validateCreateQuestionDTO(questionDTO);
-        Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty().toUpperCase());
-        List<Answer> answersList = questionDTO.getAnswers().stream().map(entitiesMapper::createAnswerDTOToAnswer).toList();
-        Question question = Question.builder()
-                .difficulty(difficulty)
-                .questionBody(questionDTO.getQuestionBody())
-                .questionTitle(questionDTO.getQuestionTitle())
-                .answers(answersList)
-                .tags(processTags(questionDTO.getTags()))
-                .isDeleted(false)
-                .build();
-
-        answersList.forEach(answer -> answer.setQuestion(question));
-
-        return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
-    }
-
-    @Transactional
     public void deleteQuestion(UUID id) {
         Question questionToBeDeleted = questionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Question doesn't exist"));
         questionToBeDeleted.setDeleted(true);
@@ -106,4 +104,33 @@ public class QuestionService {
 }
 
 
+    @Transactional
+    public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
+        Question question = questionRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Question not found"));
+        if (!validateAnswers(createQuestionDTO.getAnswers())){
+            throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
+        }
+        question.setAnswers(createQuestionDTO.getAnswers());
+        question.setDifficultly(Difficulty.valueOf(createQuestionDTO.getDifficultly()));
+        question.setQuestionBody(createQuestionDTO.getQuestionBody());
+        question.setTags(processTags(createQuestionDTO.getTags()));
 
+        questionRepository.save(question);
+    }
+
+    public Question findQuestionById(UUID id) {
+        return questionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Question not found! "));
+    }
+
+    public boolean validateAnswers(List<Answer> answers) {
+        if (answers.size() < 2) {
+            return false;
+        }
+        for (Answer answer : answers) {
+            if (answer.isCorrectAnswer()) {
+                return true;
+            }
+        }
+        return false;
+    }
+}

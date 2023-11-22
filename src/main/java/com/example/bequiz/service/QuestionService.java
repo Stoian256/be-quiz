@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class QuestionService {
+
     private final QuestionRepository questionRepository;
     private final TagRepository tagRepository;
     private final QuestionBooleanBuilder questionBooleanBuilder;
@@ -85,6 +86,9 @@ public class QuestionService {
                 .build();
 
         answersList.forEach(answer -> answer.setQuestion(question));
+
       return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
 }
+
+

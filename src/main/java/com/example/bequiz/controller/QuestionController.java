@@ -55,4 +55,5 @@ public class QuestionController {
     public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
        questionService.editQuestion(id,createQuestionDTO);
     }
+
 }

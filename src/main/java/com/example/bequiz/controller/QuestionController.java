@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.bequiz.utils.Constants.*;
 
@@ -38,5 +39,13 @@ public class QuestionController {
     @GetMapping
     public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) Difficulty difficulty, @RequestParam(required = false) List<String> tags) {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
+    }
+
+
+
+    @PutMapping("/updateQuestion{id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
+       questionService.editQuestion(id,createQuestionDTO);
     }
 }

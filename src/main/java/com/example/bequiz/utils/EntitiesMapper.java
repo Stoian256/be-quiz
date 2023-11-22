@@ -15,7 +15,7 @@ import java.util.List;
 public interface EntitiesMapper {
     @Mapping(target = "tags", source = "tags", qualifiedByName = "tagListToTagDTOList")
     QuestionDTO questionToQuestionDTO(Question question);
-
     @Named("tagListToTagDTOList")
     List<TagDTO> tagListToTagDTOList(List<Tag> tags);
+    TagDTO tagToTagDTO(Tag tag);
 }

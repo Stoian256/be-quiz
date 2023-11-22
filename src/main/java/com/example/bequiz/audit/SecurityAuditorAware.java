@@ -1,13 +1,12 @@
-package com.example.bequiz.configuration.security;
+package com.example.bequiz.audit;
 
 import org.springframework.data.domain.AuditorAware;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
 import java.util.Optional;
+
 @Component
 public class SecurityAuditorAware implements AuditorAware<String> {
 

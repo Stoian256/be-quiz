@@ -11,8 +11,9 @@ import java.util.List;
 @NoArgsConstructor
 public class CreateQuestionDTO {
 
+    private String questionTitle;
     private String questionBody;
-    private String difficultly;
+    private String difficulty;
     private List<Answer> answers;
     private List<String> tags;
 }

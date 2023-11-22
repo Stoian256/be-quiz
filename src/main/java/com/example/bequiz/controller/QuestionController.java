@@ -10,9 +10,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/questions")
 public class QuestionController {
+
     private final QuestionService questionService;
-
-
 
     @PostMapping("/createQuestion")
     @ResponseStatus(HttpStatus.CREATED)

@@ -9,6 +9,7 @@ import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
+import com.example.bequiz.validation.EntitiesValidator;
 import jakarta.transaction.Transactional;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
@@ -29,8 +30,10 @@ public class QuestionService {
     private final TagRepository tagRepository;
     private final QuestionBooleanBuilder questionBooleanBuilder;
     private final EntitiesMapper entitiesMapper;
+    private final EntitiesValidator entitiesValidator;
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, Difficulty difficulty, List<String> tagsAsString) {
+        entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
         List<Tag> tags = tagRepository.findByTagTitleIn(tagsAsString);
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
@@ -74,8 +77,9 @@ public class QuestionService {
 
     @Transactional
     public QuestionDTO createQuestion(CreateQuestionDTO questionDTO) {
+        entitiesValidator.validateCreateQuestionDTO(questionDTO);
         Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty().toUpperCase());
-        List<Answer> answersList = questionDTO.getAnswers();
+        List<Answer> answersList = questionDTO.getAnswers().stream().map(entitiesMapper::createAnswerDTOToAnswer).toList();
         Question question = Question.builder()
                 .difficulty(difficulty)
                 .questionBody(questionDTO.getQuestionBody())
@@ -87,7 +91,7 @@ public class QuestionService {
 
         answersList.forEach(answer -> answer.setQuestion(question));
 
-      return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
+        return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
 }
 

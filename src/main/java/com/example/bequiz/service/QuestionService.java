@@ -6,25 +6,20 @@ import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
-import com.example.bequiz.domain.Question;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
 import jakarta.transaction.Transactional;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
-import com.example.bequiz.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.UUID;
-
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 

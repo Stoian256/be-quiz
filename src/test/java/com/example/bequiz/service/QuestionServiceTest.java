@@ -1,9 +1,6 @@
 package com.example.bequiz.service;
 
 import com.example.bequiz.domain.Answer;
-import com.example.bequiz.domain.Question;
-import com.example.bequiz.dto.CreateAnswerDTO;
-import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.EntitiesMapper;

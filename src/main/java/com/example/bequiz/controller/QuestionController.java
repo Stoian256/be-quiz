@@ -33,8 +33,6 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
-
-
     @PutMapping("/updateQuestion{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){

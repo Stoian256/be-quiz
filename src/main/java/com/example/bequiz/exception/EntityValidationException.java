@@ -8,6 +8,7 @@ import static java.lang.String.format;
 @Builder
 @Getter
 public class EntityValidationException extends RuntimeException {
+
     private final ErrorCode errorCode;
 
     public EntityValidationException(ErrorCode code) {

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
     @ExceptionHandler(value = EntityValidationException.class)
     public ResponseEntity<String> handle(EntityValidationException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.valueOf(exception.getErrorCode().getCode()));

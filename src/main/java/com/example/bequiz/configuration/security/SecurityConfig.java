@@ -19,9 +19,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeHttpRequests(authorize ->
-                        authorize
-                                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**", "/swagger-resources/**", "/webjars/**").permitAll()
-                                .anyRequest().permitAll()
+                        authorize.anyRequest().authenticated()
                 ).cors(withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt->jwt.jwtAuthenticationConverter(makePermissionsConverter())));

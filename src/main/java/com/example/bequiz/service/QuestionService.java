@@ -104,6 +104,10 @@ public class QuestionService {
     public QuestionDTO getQuestionById(UUID questionId) {
         return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
     }
+
+    public QuestionDTO getQuestionById(UUID questionId) {
+        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
+    }
 }
 
     @Transactional

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,5 +31,10 @@ public class QuestionController {
     @GetMapping
     public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) Difficulty difficulty, @RequestParam(required = false) List<String> tags) {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
+    }
+
+    @GetMapping("/{id}")
+    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
+        return questionService.getQuestionById(questionId);
     }
 }

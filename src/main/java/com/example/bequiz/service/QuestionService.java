@@ -57,7 +57,6 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
-
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         if (tagList !=null){
@@ -110,6 +109,7 @@ public class QuestionService {
         }
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
+        question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
         question.setTags(processTags(createQuestionDTO.getTags()));
 

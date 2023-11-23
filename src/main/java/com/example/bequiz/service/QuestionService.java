@@ -35,7 +35,6 @@ public class QuestionService {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
         List<Tag> tags = tagRepository.findByTagTitleIn(tagsAsString);
 
-        System.out.println(tags);
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
                 .pageIndex(pageIndex)
@@ -177,7 +176,7 @@ public class QuestionService {
 
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
-        Question question = questionRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Question not found"));
+        Question question = findQuestionById(uuid);
         if (!validateAnswers(createQuestionDTO.getAnswers())) {
             throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
         }

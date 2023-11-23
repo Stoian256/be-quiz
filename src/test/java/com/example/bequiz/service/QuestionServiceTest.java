@@ -2,6 +2,7 @@ package com.example.bequiz.service;
 
 import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
+import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
@@ -27,7 +28,7 @@ import static org.mockito.Mockito.*;
 
 public class QuestionServiceTest {
 
-    private List<Answer> answerList;
+    private List<CreateAnswerDTO> answerList;
     @Mock
     private QuestionRepository questionRepository;
 
@@ -69,37 +70,37 @@ public class QuestionServiceTest {
 
     @Test
     public void testValidateAnswerWith2FalseAnswers() {
-        answerList.add(new Answer("lara", false, null));
-        answerList.add(new Answer("tara", false, null));
+        answerList.add(new CreateAnswerDTO("lara", false));
+        answerList.add(new CreateAnswerDTO("tara", false));
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWithOnly1TrueAnswers() {
-        answerList.add(new Answer("tara", true, null));
+        answerList.add(new CreateAnswerDTO("tara", true));
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith2AnswersWhenOneIsTrue() {
-        answerList.add(new Answer("tara", true, null));
-        answerList.add(new Answer("tara", false, null));
+        answerList.add(new CreateAnswerDTO("tara", true));
+        answerList.add(new CreateAnswerDTO("tara", false));
         assertTrue(questionService.validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith4AnswersWhenOneIsTrue() {
-        answerList.add(new Answer("Da", true, null));
-        answerList.add(new Answer("Nu", false, null));
-        answerList.add(new Answer("Incorrect", false, null));
-        answerList.add(new Answer("Correct", false, null));
+        answerList.add(new CreateAnswerDTO("Da", true));
+        answerList.add(new CreateAnswerDTO("Nu", false));
+        answerList.add(new CreateAnswerDTO("Incorrect", false));
+        answerList.add(new CreateAnswerDTO("Correct", false));
         assertTrue(questionService.validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith2TrueAnswers() {
-        answerList.add(new Answer("tara", true, null));
-        answerList.add(new Answer("tara", true, null));
+        answerList.add(new CreateAnswerDTO("tara", true));
+        answerList.add(new CreateAnswerDTO("tara", true));
         assertTrue(questionService.validateAnswers(answerList));
     }
 }

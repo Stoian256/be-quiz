@@ -125,10 +125,11 @@ public class QuestionService {
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
+        List<Answer> answers=createQuestionDTO.getAnswers().stream().map(answerDTO->new Answer(answerDTO.getAnswerContent(),answerDTO.isCorrectAnswer(),question)).collect(Collectors.toList());
         if (!validateAnswers(createQuestionDTO.getAnswers())) {
             throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
         }
-        question.setAnswers(createQuestionDTO.getAnswers());
+        question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
         question.setTags(processTags(createQuestionDTO.getTags()));
@@ -140,11 +141,11 @@ public class QuestionService {
         return questionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Question not found! "));
     }
 
-    public boolean validateAnswers(List<Answer> answers) {
+    public boolean validateAnswers(List<CreateAnswerDTO> answers) {
         if (answers == null || answers.size() < 2) {
             return false;
         }
-        for (Answer answer : answers) {
+        for (CreateAnswerDTO answer : answers) {
             if (answer.isCorrectAnswer()) {
                 return true;
             }

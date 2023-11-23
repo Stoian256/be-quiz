@@ -16,7 +16,7 @@ public class Constants {
     public static final String RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES =
             """
                     Items per page must be grater then 0!\n
-                    Page index must be grater than or equal to 0!\n
+                    Page index must be greater than or equal to 0!\n
                     You are allowed to assign maximum 7 tags to a question!\n
                     """;
 }

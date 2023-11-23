@@ -13,6 +13,7 @@ import static com.example.bequiz.utils.Constants.*;
 
 @Component
 public class EntitiesValidator {
+
     public void validateQuestionFilters(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString) {
         if (itemsPerPage != null && itemsPerPage < 1)
             throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);

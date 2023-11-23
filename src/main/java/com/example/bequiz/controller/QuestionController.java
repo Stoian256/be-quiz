@@ -40,6 +40,11 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
+    @GetMapping("/{id}")
+    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
+        return questionService.getQuestionById(questionId);
+    }
+
     @DeleteMapping("/deleteQuestion/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);

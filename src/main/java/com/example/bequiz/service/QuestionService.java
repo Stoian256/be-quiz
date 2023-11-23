@@ -20,6 +20,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -56,6 +57,7 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
+
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         if (tagList !=null){
@@ -98,6 +100,11 @@ public class QuestionService {
 
         return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
+
+    public QuestionDTO getQuestionById(UUID questionId) {
+        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
+    }
+}
 
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {

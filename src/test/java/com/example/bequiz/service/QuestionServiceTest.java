@@ -1,22 +1,29 @@
 package com.example.bequiz.service;
 
 import com.example.bequiz.domain.Answer;
+import com.example.bequiz.domain.Question;
+import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.EntitiesMapper;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 public class QuestionServiceTest {
 
@@ -39,66 +46,60 @@ public class QuestionServiceTest {
     public MockitoRule rule = MockitoJUnit.rule();
 
 
-    @BeforeEach
+    @Before
     public void setUp() throws Exception {
+        answerList = new ArrayList<>();
         MockitoAnnotations.openMocks(this);
     }
 
-    @AfterEach
+    @After
     public void tearDown() throws Exception {
         answerList.clear();
     }
 
     @Test
-    public void testValidateAnswerWithLessThan2Answers(){
-        answerList=new ArrayList<>();
+    public void testValidateAnswerWithLessThan2Answers() {
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
-    public void testValidateAnswerWhenListIsNull(){
+    public void testValidateAnswerWhenListIsNull() {
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
-    public void testValidateAnswerWith2FalseAnswers(){
-        answerList=new ArrayList<>();
-        answerList.add(new Answer("lara",false,null));
-        answerList.add(new Answer("tara",false,null));
+    public void testValidateAnswerWith2FalseAnswers() {
+        answerList.add(new Answer("lara", false, null));
+        answerList.add(new Answer("tara", false, null));
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
-    public void testValidateAnswerWithOnly1TrueAnswers(){
-        answerList=new ArrayList<>();
-        answerList.add(new Answer("tara",true,null));
+    public void testValidateAnswerWithOnly1TrueAnswers() {
+        answerList.add(new Answer("tara", true, null));
         assertFalse(questionService.validateAnswers(answerList));
     }
 
     @Test
-    public void testValidateAnswerWith2AnswersWhenOneIsTrue(){
-        answerList=new ArrayList<>();
-        answerList.add(new Answer("tara",true,null));
-        answerList.add(new Answer("tara",false,null));
-        assertTrue(questionService.validateAnswers(answerList));
-    }
-
-
-    @Test
-    public void testValidateAnswerWith4AnswersWhenOneIsTrue(){
-        answerList=new ArrayList<>();
-        answerList.add(new Answer("Da",true,null));
-        answerList.add(new Answer("Nu",false,null));
-        answerList.add(new Answer("Incorrect",false,null));
-        answerList.add(new Answer("Correct",false,null));
+    public void testValidateAnswerWith2AnswersWhenOneIsTrue() {
+        answerList.add(new Answer("tara", true, null));
+        answerList.add(new Answer("tara", false, null));
         assertTrue(questionService.validateAnswers(answerList));
     }
 
     @Test
-    public void testValidateAnswerWith2TrueAnswers(){
-        answerList=new ArrayList<>();
-        answerList.add(new Answer("tara",true,null));
-        answerList.add(new Answer("tara",true,null));
+    public void testValidateAnswerWith4AnswersWhenOneIsTrue() {
+        answerList.add(new Answer("Da", true, null));
+        answerList.add(new Answer("Nu", false, null));
+        answerList.add(new Answer("Incorrect", false, null));
+        answerList.add(new Answer("Correct", false, null));
+        assertTrue(questionService.validateAnswers(answerList));
+    }
+
+    @Test
+    public void testValidateAnswerWith2TrueAnswers() {
+        answerList.add(new Answer("tara", true, null));
+        answerList.add(new Answer("tara", true, null));
         assertTrue(questionService.validateAnswers(answerList));
     }
 }

@@ -19,6 +19,9 @@ public class QuestionBooleanBuilder {
         }
 
         if (questionFilters.getTags() != null) {
+            if (questionFilters.getTags().isEmpty()) {
+                booleanBuilder.and(QQuestion.question.tags.isEmpty());
+            }
             questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
         }
 

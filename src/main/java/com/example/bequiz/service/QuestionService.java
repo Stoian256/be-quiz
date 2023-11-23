@@ -35,6 +35,8 @@ public class QuestionService {
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, Difficulty difficulty, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
         List<Tag> tags = tagRepository.findByTagTitleIn(tagsAsString);
+
+        System.out.println(tags);
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
                 .pageIndex(pageIndex)

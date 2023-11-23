@@ -2,7 +2,6 @@ plugins {
 	id 'java'
 	id 'io.spring.dependency-management' version '1.1.3'
 	id 'org.springframework.boot' version '3.1.3'
-	id 'se.solrike.sonarlint' version '1.0.0-beta.15'
 }
 
 group = 'com.example'
@@ -42,7 +41,6 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	developmentOnly('org.springframework.boot:spring-boot-devtools')
-	sonarlintPlugins('org.sonarsource.java:sonar-java-plugin:7.21.0.31796')
 
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor "jakarta.persistence:jakarta.persistence-api"

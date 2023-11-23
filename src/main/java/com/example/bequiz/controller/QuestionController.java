@@ -39,6 +39,11 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
+    @GetMapping("/{id}")
+    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
+        return questionService.getQuestionById(questionId);
+    }
+
     @Operation(responses = {@ApiResponse(responseCode = "404", description = "Question not found!", content = @Content)})
     @GetMapping("/{id}")
     public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {

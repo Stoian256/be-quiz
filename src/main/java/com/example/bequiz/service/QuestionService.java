@@ -113,6 +113,10 @@ public class QuestionService {
                 .orElseThrow(()->new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
         return entitiesMapper.questionToQuestionDTO(question);
     }
+
+    public QuestionDTO getQuestionById(UUID questionId) {
+        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
+    }
 }
 
     @Transactional

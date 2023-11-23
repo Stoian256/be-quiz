@@ -53,23 +53,26 @@ public class QuestionService {
     }
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
-        return tagList.stream()
-                .map(string -> {
-                    String trimmedString = string.trim();
-                    if (trimmedString.length() > 1) {
-                        return trimmedString.substring(0, 1).toUpperCase() + trimmedString.substring(1).toLowerCase();
-                    } else {
-                        return trimmedString;
-                    }
-                })
-                .map(tagTitle -> {
-                    Tag existingTag = tagRepository.findByTagTitle(tagTitle);
-                    if (existingTag == null) {
-                        existingTag = new Tag(tagTitle, null);
-                        tagRepository.save(existingTag);
-                    }
-                    return existingTag;
-                }).collect(Collectors.toList());
+        if (tagList !=null){
+            return tagList.stream()
+                    .map(string -> {
+                        String trimmedString = string.trim();
+                        if (trimmedString.length() > 1) {
+                            return trimmedString.substring(0, 1).toUpperCase() + trimmedString.substring(1).toLowerCase();
+                        } else {
+                            return trimmedString;
+                        }
+                    })
+                    .map(tagTitle -> {
+                        Tag existingTag = tagRepository.findByTagTitle(tagTitle);
+                        if (existingTag == null) {
+                            existingTag = new Tag(tagTitle, null);
+                            tagRepository.save(existingTag);
+                        }
+                        return existingTag;
+                    }).collect(Collectors.toList());
+        }
+        return null;
     }
 
     @Transactional
@@ -95,7 +98,7 @@ public class QuestionService {
 
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
-        Question question = questionRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Question not found"));
+        Question question = findQuestionById(uuid);
         if (!validateAnswers(createQuestionDTO.getAnswers())) {
             throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
         }

@@ -3,6 +3,7 @@ package com.example.bequiz.service;
 import com.example.bequiz.dto.TagDTO;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.EntitiesMapper;
+import com.example.bequiz.validation.EntitiesValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;

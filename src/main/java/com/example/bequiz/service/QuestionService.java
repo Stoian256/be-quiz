@@ -12,14 +12,12 @@ import com.example.bequiz.utils.Difficulty;
 import jakarta.transaction.Transactional;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -53,7 +51,6 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
-
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         return tagList.stream()
@@ -104,6 +101,7 @@ public class QuestionService {
         }
         question.setAnswers(createQuestionDTO.getAnswers());
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
+        question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
         question.setTags(processTags(createQuestionDTO.getTags()));
 

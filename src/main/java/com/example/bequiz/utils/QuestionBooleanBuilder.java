@@ -19,12 +19,11 @@ public class QuestionBooleanBuilder {
         }
 
         if (questionFilters.getTags() != null) {
-            if (questionFilters.getTags().isEmpty()) {
+            if (!questionFilters.getTags().isEmpty())
+                questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
+            else
                 booleanBuilder.and(QQuestion.question.tags.isEmpty());
-            }
-            questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
         }
-
         return booleanBuilder;
     }
 }

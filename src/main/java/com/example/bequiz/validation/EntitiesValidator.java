@@ -19,9 +19,7 @@ public class EntitiesValidator {
             throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);
         if (pageIndex != null && pageIndex < 0)
             throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
-        if(tagsAsString == null )
-            throw new EntityValidationException(ErrorCode.INVALID_FIELD, TAG_LIST);
-        if (tagsAsString.size() > 7)
+        if (tagsAsString != null && tagsAsString.size() > 7)
             throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
     }
 

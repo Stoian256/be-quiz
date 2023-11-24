@@ -17,7 +17,6 @@ import jakarta.transaction.Transactional;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -41,7 +40,9 @@ public class QuestionService {
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, Difficulty difficulty, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
-        List<Tag> tags = tagRepository.findByTagTitleInIgnoreCase(tagsAsString);
+        List<Tag> tags = (tagsAsString != null && !tagsAsString.isEmpty()) ?
+                tagRepository.findByTagTitleInIgnoreCase(tagsAsString) :
+                null;
 
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)

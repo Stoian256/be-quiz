@@ -16,12 +16,10 @@ import java.util.List;
 @Entity
 @Table(name = "question")
 public class Question extends BaseEntity {
+
     private String questionTitle;
-
     private String questionBody;
-
     private Difficulty difficulty;
-
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
@@ -32,4 +30,7 @@ public class Question extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private List<Tag> tags;
+
+    @ManyToMany(mappedBy ="questions")
+    private List<Quiz> quizzes;
 }

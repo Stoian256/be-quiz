@@ -86,7 +86,7 @@ public class QuestionService {
                     .map(tagTitle -> {
                         Tag existingTag = tagRepository.findByTagTitle(tagTitle);
                         if (existingTag == null) {
-                            existingTag = new Tag(tagTitle, null);
+                            existingTag = new Tag(tagTitle, null,null);
                             tagRepository.save(existingTag);
                         }
                         return existingTag;

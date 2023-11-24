@@ -9,11 +9,4 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class QuizController {
 
 
-    @ResponseBody
-    @GetMapping("/")
-    @PreAuthorize("hasAuthority('Admin')")
-    public String helloWorld(){
-        return "hello world!";
-    }
-
 }

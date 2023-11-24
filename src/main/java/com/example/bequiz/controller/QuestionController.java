@@ -32,7 +32,7 @@ public class QuestionController {
 
     @Operation(responses = {@ApiResponse(responseCode = "400", description = CREATE_QUESTION_BAD_REQUEST_MESSAGES, content = @Content)})
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping("/createQuestion")
+    @PostMapping("/create")
     public QuestionDTO createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO) {
         return questionService.createQuestion(createQuestionDTO);
     }
@@ -62,7 +62,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "200"),
                     @ApiResponse(responseCode = "404", description = "Question not found!", content = @Content)
             })
-    @DeleteMapping("/deleteQuestion/{questionId}")
+    @DeleteMapping("/delete/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);
     }
@@ -72,7 +72,7 @@ public class QuestionController {
                     @ApiResponse(responseCode = "200"),
                     @ApiResponse(responseCode = "404", description = "Question not found!", content = @Content)
             })
-    @PutMapping("/updateQuestion{id}")
+    @PutMapping("/update/{id}")
     public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {
         questionService.editQuestion(id, createQuestionDTO);
     }

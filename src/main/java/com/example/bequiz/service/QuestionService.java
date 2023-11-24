@@ -7,6 +7,8 @@ import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
+import com.example.bequiz.exception.EntityValidationException;
+import com.example.bequiz.exception.ErrorCode;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
@@ -20,9 +22,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.example.bequiz.utils.Constants.QUESTION;
 
 @Service
 @RequiredArgsConstructor
@@ -56,9 +61,10 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
+
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
-        if (tagList !=null){
+        if (tagList != null) {
             return tagList.stream()
                     .map(string -> {
                         String trimmedString = string.trim();
@@ -99,10 +105,17 @@ public class QuestionService {
         return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
 
+    public QuestionDTO getQuestionById(UUID questionId) {
+        Question question = questionRepository
+                .findById(questionId)
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
+        return entitiesMapper.questionToQuestionDTO(question);
+    }
+
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
-        List<Answer> answers=createQuestionDTO.getAnswers().stream().map(answerDTO->new Answer(answerDTO.getAnswerContent(),answerDTO.isCorrectAnswer(),question)).collect(Collectors.toList());
+        List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
         if (!validateAnswers(createQuestionDTO.getAnswers())) {
             throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
         }
@@ -130,9 +143,10 @@ public class QuestionService {
         }
         return false;
     }
+
     @Transactional
     public void deleteQuestion(UUID questionId) {
-        Question question=findQuestionById(questionId);
+        Question question = findQuestionById(questionId);
         questionRepository.delete(question);
     }
 }

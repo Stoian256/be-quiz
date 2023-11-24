@@ -14,7 +14,8 @@ public enum ErrorCode {
     INVALID_ITEMS_PER_PAGE(400, "Items per page must be greater then 0!"),
     INVALID_PAGE_INDEX(400, "Page index must be grater than or equal to 0!"),
     INVALID_DIFFICULTY(400, "Difficulty must be EASY, MEDIUM, HARD!"),
-    VALIDATION_ERROR(400,"%s");
+    VALIDATION_ERROR(400,"%s"),
+    NOT_FOUND(404,"%s not found!");
 
     private final Integer code;
     private final String message;

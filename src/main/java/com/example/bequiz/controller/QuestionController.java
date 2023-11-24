@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 import java.util.List;
+
 import static com.example.bequiz.utils.Constants.*;
 
 @RestController
@@ -40,15 +41,20 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
+    @Operation(responses = {@ApiResponse(responseCode = "404", description = "Question not found!")})
+    @GetMapping("/{id}")
+    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
+        return questionService.getQuestionById(questionId);
+    }
+
     @DeleteMapping("/deleteQuestion/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);
     }
 
-
     @PutMapping("/updateQuestion{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
-       questionService.editQuestion(id,createQuestionDTO);
+    public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {
+        questionService.editQuestion(id, createQuestionDTO);
     }
 }

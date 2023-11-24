@@ -49,7 +49,7 @@ public class QuestionController {
         return questionService.getQuestionById(questionId);
     }
 
-    @Operation(responses = {@ApiResponse(responseCode = "404", description = "Question not found!", content = @Content)})
+    @Operation(responses = {@ApiResponse(responseCode = "404", description = "Question not found!")})
     @GetMapping("/{id}")
     public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
         return questionService.getQuestionById(questionId);

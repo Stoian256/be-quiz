@@ -12,7 +12,6 @@ dependencyLocking {
 	lockAllConfigurations()
 }
 
-
 configurations {
 	compileOnly {
 		extendsFrom annotationProcessor

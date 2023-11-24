@@ -56,7 +56,6 @@ public class QuestionService {
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
     }
-
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
         if (tagList !=null){
@@ -100,7 +99,6 @@ public class QuestionService {
         return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
 
-
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
@@ -110,6 +108,7 @@ public class QuestionService {
         }
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
+        question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
         question.setTags(processTags(createQuestionDTO.getTags()));
 
@@ -131,7 +130,6 @@ public class QuestionService {
         }
         return false;
     }
-
     @Transactional
     public void deleteQuestion(UUID questionId) {
         Question question=findQuestionById(questionId);

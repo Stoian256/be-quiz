@@ -40,13 +40,10 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
-
     @DeleteMapping("/deleteQuestion/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);
     }
-
-
 
 
     @PutMapping("/updateQuestion{id}")
@@ -54,6 +51,4 @@ public class QuestionController {
     public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
        questionService.editQuestion(id,createQuestionDTO);
     }
-
-
 }

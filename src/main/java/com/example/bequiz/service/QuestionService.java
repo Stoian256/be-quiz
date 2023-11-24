@@ -17,8 +17,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
-
+import java.util.UUID;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -95,6 +96,14 @@ public class QuestionService {
 
         return entitiesMapper.questionToQuestionDTO(questionRepository.save(question));
     }
+
+    @Transactional
+    public void deleteQuestion(UUID id) {
+        Question questionToBeDeleted = questionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Question doesn't exist"));
+        questionToBeDeleted.setDeleted(true);
+        questionRepository.save(questionToBeDeleted);
+    }
 }
+
 
 

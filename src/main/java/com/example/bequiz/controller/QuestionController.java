@@ -12,11 +12,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.bequiz.utils.Constants.*;
 
@@ -39,4 +42,11 @@ public class QuestionController {
     public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) Difficulty difficulty, @RequestParam(required = false) List<String> tags) {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
+
+
+    @DeleteMapping("/deleteQuestion/{questionId}")
+    public void deleteQuestion(@PathVariable UUID questionId) {
+        questionService.deleteQuestion(questionId);
+    }
+
 }

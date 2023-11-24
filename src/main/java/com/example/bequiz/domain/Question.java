@@ -4,7 +4,6 @@ import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 

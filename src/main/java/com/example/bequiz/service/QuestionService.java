@@ -6,6 +6,8 @@ import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
+import com.example.bequiz.exception.EntityValidationException;
+import com.example.bequiz.exception.ErrorCode;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
@@ -14,6 +16,7 @@ import jakarta.transaction.Transactional;
 import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -22,6 +25,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import static com.example.bequiz.utils.Constants.QUESTION;
+import static com.example.bequiz.utils.Constants.TAG_LIST;
 
 @Service
 @RequiredArgsConstructor
@@ -98,11 +104,10 @@ public class QuestionService {
     }
 
     public QuestionDTO getQuestionById(UUID questionId) {
-        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
-    }
-
-    public QuestionDTO getQuestionById(UUID questionId) {
-        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
+        Question question = questionRepository
+                .findById(questionId)
+                .orElseThrow(()->new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
+        return entitiesMapper.questionToQuestionDTO(question);
     }
 }
 

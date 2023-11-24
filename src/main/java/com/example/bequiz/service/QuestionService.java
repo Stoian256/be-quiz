@@ -18,7 +18,6 @@ import com.example.bequiz.utils.QuestionBooleanBuilder;
 import com.example.bequiz.utils.EntitiesMapper;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
-import org.springframework.context.ApplicationContextException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -29,7 +28,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import static com.example.bequiz.utils.Constants.QUESTION;
-import static com.example.bequiz.utils.Constants.TAG_LIST;
 
 @Service
 @RequiredArgsConstructor

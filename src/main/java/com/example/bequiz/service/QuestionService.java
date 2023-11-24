@@ -41,7 +41,7 @@ public class QuestionService {
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, Difficulty difficulty, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
-        List<Tag> tags = tagRepository.findByTagTitleIn(tagsAsString);
+        List<Tag> tags = tagRepository.findByTagTitleInIgnoreCase(tagsAsString);
 
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
@@ -106,9 +106,7 @@ public class QuestionService {
     }
 
     public QuestionDTO getQuestionById(UUID questionId) {
-        Question question = questionRepository
-                .findById(questionId)
-                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
+        Question question = findQuestionById(questionId);
         return entitiesMapper.questionToQuestionDTO(question);
     }
 
@@ -129,7 +127,9 @@ public class QuestionService {
     }
 
     public Question findQuestionById(UUID id) {
-        return questionRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Question not found! "));
+        return questionRepository
+                .findById(id)
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
     }
 
     public boolean validateAnswers(List<CreateAnswerDTO> answers) {

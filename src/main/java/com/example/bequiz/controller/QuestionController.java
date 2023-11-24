@@ -15,8 +15,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 import java.util.UUID;
 import java.util.List;
+
 import static com.example.bequiz.utils.Constants.*;
 
 @RestController
@@ -44,17 +46,6 @@ public class QuestionController {
         return questionService.getQuestionById(questionId);
     }
 
-    @GetMapping("/{id}")
-    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
-        return questionService.getQuestionById(questionId);
-    }
-
-    @Operation(responses = {@ApiResponse(responseCode = "404", description = "Question not found!")})
-    @GetMapping("/{id}")
-    public QuestionDTO getQuestionById(@PathVariable("id") UUID questionId) {
-        return questionService.getQuestionById(questionId);
-    }
-
     @DeleteMapping("/deleteQuestion/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);
@@ -63,7 +54,7 @@ public class QuestionController {
 
     @PutMapping("/updateQuestion{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
-       questionService.editQuestion(id,createQuestionDTO);
+    public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {
+        questionService.editQuestion(id, createQuestionDTO);
     }
 }

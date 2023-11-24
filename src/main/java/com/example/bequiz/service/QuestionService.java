@@ -66,7 +66,7 @@ public class QuestionService {
 
     @Transactional
     public List<Tag> processTags(List<String> tagList) {
-        if (tagList !=null){
+        if (tagList != null) {
             return tagList.stream()
                     .map(string -> {
                         String trimmedString = string.trim();
@@ -110,23 +110,14 @@ public class QuestionService {
     public QuestionDTO getQuestionById(UUID questionId) {
         Question question = questionRepository
                 .findById(questionId)
-                .orElseThrow(()->new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
         return entitiesMapper.questionToQuestionDTO(question);
     }
-
-    public QuestionDTO getQuestionById(UUID questionId) {
-        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
-    }
-
-    public QuestionDTO getQuestionById(UUID questionId) {
-        return entitiesMapper.questionToQuestionDTO(questionRepository.getReferenceById(questionId));
-    }
-}
 
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
-        List<Answer> answers=createQuestionDTO.getAnswers().stream().map(answerDTO->new Answer(answerDTO.getAnswerContent(),answerDTO.isCorrectAnswer(),question)).collect(Collectors.toList());
+        List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
         if (!validateAnswers(createQuestionDTO.getAnswers())) {
             throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
         }
@@ -154,9 +145,10 @@ public class QuestionService {
         }
         return false;
     }
+
     @Transactional
     public void deleteQuestion(UUID questionId) {
-        Question question=findQuestionById(questionId);
+        Question question = findQuestionById(questionId);
         questionRepository.delete(question);
     }
 }

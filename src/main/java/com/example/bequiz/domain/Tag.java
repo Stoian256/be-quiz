@@ -24,4 +24,11 @@ public class Tag extends BaseEntity {
     @ToString.Exclude
     @ManyToMany(mappedBy = "tags")
     private List<Question> questions;
+
+    @JsonIgnore
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "tags")
+    private List<Quiz> quizzes;
+
+
 }

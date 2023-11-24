@@ -1,7 +1,6 @@
 package com.example.bequiz.dto;
 
 import lombok.*;
-
 import java.util.List;
 
 @Data

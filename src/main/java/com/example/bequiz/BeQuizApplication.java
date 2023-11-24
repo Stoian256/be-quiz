@@ -9,9 +9,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @ConfigurationPropertiesScan
 @EnableJpaAuditing()
 public class BeQuizApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(BeQuizApplication.class, args);
     }
-
 }
+

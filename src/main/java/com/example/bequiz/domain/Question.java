@@ -4,6 +4,7 @@ import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import net.minidev.json.annotate.JsonIgnore;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class Question extends BaseEntity {
     )
     private List<Tag> tags;
 
+    @JsonIgnore
     @ManyToMany(mappedBy ="questions")
     private List<Quiz> quizzes;
 }

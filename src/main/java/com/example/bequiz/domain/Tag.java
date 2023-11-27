@@ -27,8 +27,10 @@ public class Tag extends BaseEntity {
 
     @JsonIgnore
     @ToString.Exclude
-    @ManyToMany(mappedBy = "tags")
+    @ManyToMany(mappedBy = "quizTags")
     private List<Quiz> quizzes;
 
-
+    public Tag(String tagTitle) {
+        this.tagTitle = tagTitle;
+    }
 }

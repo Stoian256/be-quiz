@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,12 +24,13 @@ import static com.example.bequiz.utils.Constants.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/questions")
+@PreAuthorize("hasAuthority('Admin')")
 public class QuestionController {
 
     private final QuestionService questionService;
 
     @Operation(responses = {@ApiResponse(responseCode = "400", description = CREATE_QUESTION_BAD_REQUEST_MESSAGES, content = @Content)})
-    @PostMapping("/createQuestion")
+    @PostMapping("/create")
     @ResponseStatus(HttpStatus.CREATED)
     public QuestionDTO createQuestion(@RequestBody CreateQuestionDTO createQuestionDTO) {
         return questionService.createQuestion(createQuestionDTO);
@@ -40,13 +42,13 @@ public class QuestionController {
         return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
     }
 
-    @DeleteMapping("/deleteQuestion/{questionId}")
+    @DeleteMapping("/delete/{questionId}")
     public void deleteQuestion(@PathVariable UUID questionId) {
         questionService.deleteQuestion(questionId);
     }
 
 
-    @PutMapping("/updateQuestion{id}")
+    @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void updateQuestion(@PathVariable UUID id,@RequestBody CreateQuestionDTO createQuestionDTO){
        questionService.editQuestion(id,createQuestionDTO);

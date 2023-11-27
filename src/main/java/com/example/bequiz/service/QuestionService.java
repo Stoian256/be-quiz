@@ -4,7 +4,6 @@ import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
 import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
-import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.exception.EntityValidationException;
@@ -71,30 +70,6 @@ public class QuestionService {
                 .map(tagTitle -> tagRepository.findOptionalByTagTitleIgnoreCase(tagTitle)
                         .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, "Tag " + tagTitle)))
                 .collect(Collectors.toList());
-    }
-
-    @Transactional
-    public List<Tag> processTags(List<String> tagList) {
-        if (tagList != null) {
-            return tagList.stream()
-                    .map(string -> {
-                        String trimmedString = string.trim();
-                        if (trimmedString.length() > 1) {
-                            return trimmedString.substring(0, 1).toUpperCase() + trimmedString.substring(1).toLowerCase();
-                        } else {
-                            return trimmedString;
-                        }
-                    })
-                    .map(tagTitle -> {
-                        Tag existingTag = tagRepository.findByTagTitle(tagTitle);
-                        if (existingTag == null) {
-                            existingTag = new Tag(tagTitle, null,null);
-                            tagRepository.save(existingTag);
-                        }
-                        return existingTag;
-                    }).collect(Collectors.toList());
-        }
-        return null;
     }
 
     @Transactional

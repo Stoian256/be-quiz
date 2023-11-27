@@ -6,7 +6,6 @@ import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuizDTO;
 import com.example.bequiz.dto.QuizDTO;
 import com.example.bequiz.repository.QuizRepository;
-import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.utils.EntitiesMapper;
 import jakarta.transaction.Transactional;

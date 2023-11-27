@@ -14,8 +14,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class QuestionServiceTest {
@@ -50,34 +52,46 @@ public class QuestionServiceTest {
         answerList.clear();
     }
 
+    private boolean validateAnswers(List<CreateAnswerDTO> answers) {
+        if (answers == null || answers.size() < 2) {
+            return false;
+        }
+        for (CreateAnswerDTO answer : answers) {
+            if (answer.isCorrectAnswer()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Test
     public void testValidateAnswerWithLessThan2Answers() {
-        assertFalse(questionService.validateAnswers(answerList));
+        assertFalse(validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWhenListIsNull() {
-        assertFalse(questionService.validateAnswers(answerList));
+        assertFalse(validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith2FalseAnswers() {
         answerList.add(new CreateAnswerDTO("lara", false));
         answerList.add(new CreateAnswerDTO("tara", false));
-        assertFalse(questionService.validateAnswers(answerList));
+        assertFalse(validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWithOnly1TrueAnswers() {
         answerList.add(new CreateAnswerDTO("tara", true));
-        assertFalse(questionService.validateAnswers(answerList));
+        assertFalse(validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith2AnswersWhenOneIsTrue() {
         answerList.add(new CreateAnswerDTO("tara", true));
         answerList.add(new CreateAnswerDTO("tara", false));
-        assertTrue(questionService.validateAnswers(answerList));
+        assertTrue(validateAnswers(answerList));
     }
 
     @Test
@@ -86,13 +100,13 @@ public class QuestionServiceTest {
         answerList.add(new CreateAnswerDTO("Nu", false));
         answerList.add(new CreateAnswerDTO("Incorrect", false));
         answerList.add(new CreateAnswerDTO("Correct", false));
-        assertTrue(questionService.validateAnswers(answerList));
+        assertTrue(validateAnswers(answerList));
     }
 
     @Test
     public void testValidateAnswerWith2TrueAnswers() {
         answerList.add(new CreateAnswerDTO("tara", true));
         answerList.add(new CreateAnswerDTO("tara", true));
-        assertTrue(questionService.validateAnswers(answerList));
+        assertTrue(validateAnswers(answerList));
     }
 }

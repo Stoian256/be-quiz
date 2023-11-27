@@ -5,6 +5,8 @@ import com.example.bequiz.domain.QuestionFilters;
 import org.springframework.stereotype.Component;
 import com.querydsl.core.BooleanBuilder;
 
+import java.util.List;
+
 @Component
 public class QuestionBooleanBuilder {
     public BooleanBuilder buildBooleanFromQuestionFilters(QuestionFilters questionFilters) {
@@ -14,16 +16,17 @@ public class QuestionBooleanBuilder {
             booleanBuilder.and(QQuestion.question.questionTitle.containsIgnoreCase(questionFilters.getKeyword()));
         }
 
-        if (questionFilters.getDifficulty() != null) {
-            booleanBuilder.and(QQuestion.question.difficulty.eq(questionFilters.getDifficulty()));
+        List<Difficulty> difficulties = questionFilters.getDifficulties();
+        BooleanBuilder difficultiesOrGroup = new BooleanBuilder();
+        if (difficulties != null && !difficulties.isEmpty()) {
+            difficulties.forEach(difficulty -> difficultiesOrGroup.or(QQuestion.question.difficulty.eq(difficulty)));
         }
+        booleanBuilder.and(difficultiesOrGroup);
 
         if (questionFilters.getTags() != null) {
-            if (!questionFilters.getTags().isEmpty())
-                questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
-            else
-                booleanBuilder.and(QQuestion.question.tags.isEmpty());
+            questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
         }
+
         return booleanBuilder;
     }
 }

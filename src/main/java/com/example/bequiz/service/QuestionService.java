@@ -4,7 +4,6 @@ import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
 import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
-import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.exception.EntityValidationException;
@@ -38,17 +37,16 @@ public class QuestionService {
     private final EntitiesMapper entitiesMapper;
     private final EntitiesValidator entitiesValidator;
 
-    public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, Difficulty difficulty, List<String> tagsAsString) {
-        entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString);
-        List<Tag> tags = (tagsAsString != null && !tagsAsString.isEmpty()) ?
-                tagRepository.findByTagTitleInIgnoreCase(tagsAsString) :
-                null;
+    public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
+        entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
+        List<Tag> tags = getTagsFromTagsAsString(tagsAsString);
+        List<Difficulty> enumDifficulties = difficulties.stream().map(difficulty -> Difficulty.valueOf(difficulty.toUpperCase())).toList();
 
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
                 .pageIndex(pageIndex)
                 .keyword(keyword)
-                .difficulty(difficulty)
+                .difficulties(enumDifficulties)
                 .tags(tags).build();
 
         PageRequest pageRequest = PageRequest.of(0, 10);
@@ -61,6 +59,16 @@ public class QuestionService {
                 .findAll(questionBooleanBuilder.buildBooleanFromQuestionFilters(questionFilters),
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
+    }
+
+    public List<Tag> getTagsFromTagsAsString(List<String> tagsAsString) {
+        if (tagsAsString == null)
+            return null;
+
+        return tagsAsString.stream()
+                .map(tagTitle -> tagRepository.findOptionalByTagTitleIgnoreCase(tagTitle)
+                        .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, "Tag " + tagTitle)))
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -115,9 +123,7 @@ public class QuestionService {
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
         List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
-        if (!validateAnswers(createQuestionDTO.getAnswers())) {
-            throw new RuntimeException("There must be at least 2 answers and one of them must be correct");
-        }
+        entitiesValidator.validateUpdateQuestionDTO(createQuestionDTO);
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
@@ -131,18 +137,6 @@ public class QuestionService {
         return questionRepository
                 .findById(id)
                 .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
-    }
-
-    public boolean validateAnswers(List<CreateAnswerDTO> answers) {
-        if (answers == null || answers.size() < 2) {
-            return false;
-        }
-        for (CreateAnswerDTO answer : answers) {
-            if (answer.isCorrectAnswer()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Transactional

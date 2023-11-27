@@ -7,6 +7,7 @@ import com.example.bequiz.utils.Difficulty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +27,7 @@ import static com.example.bequiz.utils.Constants.*;
 @RequiredArgsConstructor
 @RequestMapping("/questions")
 @PreAuthorize("hasAuthority('Admin')")
+@SecurityRequirement(name = "be_quiz_auth")
 public class QuestionController {
 
     private final QuestionService questionService;
@@ -43,8 +45,8 @@ public class QuestionController {
                     @ApiResponse(responseCode = "400", description = RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES, content = @Content)
             })
     @GetMapping
-    public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) Difficulty difficulty, @RequestParam(required = false) List<String> tags) {
-        return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulty, tags);
+    public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) List<String> difficulties, @RequestParam(required = false) List<String> tags) {
+        return questionService.findAll(itemsPerPage, pageIndex, keyword, difficulties, tags);
     }
 
     @Operation(
@@ -70,7 +72,8 @@ public class QuestionController {
     @Operation(
             responses = {
                     @ApiResponse(responseCode = "200"),
-                    @ApiResponse(responseCode = "404", description = "Question not found!", content = @Content)
+                    @ApiResponse(responseCode = "404", description = "Question not found!", content = @Content),
+                    @ApiResponse(responseCode = "400", description = UPDATE_QUESTION_BAD_REQUEST_MESSAGES, content = @Content)
             })
     @PutMapping("/update/{id}")
     public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {

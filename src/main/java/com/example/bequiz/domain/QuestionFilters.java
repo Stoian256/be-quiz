@@ -13,6 +13,6 @@ public class QuestionFilters {
     Integer itemsPerPage;
     Integer pageIndex;
     String keyword;
-    Difficulty difficulty;
+    List<Difficulty> difficulties;
     List<Tag> tags;
 }

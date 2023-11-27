@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/quiz")
@@ -20,5 +22,10 @@ public class QuizController {
     @PostMapping("/create")
     public QuizDTO createQuiz(@RequestBody CreateQuizDTO createQuizDTO){
         return quizService.createQuiz(createQuizDTO);
+    }
+
+    @DeleteMapping("/delete/{quizId}")
+    public void deleteQuiz(@PathVariable UUID quizId){
+        quizService.deleteQuestion(quizId);
     }
 }

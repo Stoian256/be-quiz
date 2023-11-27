@@ -19,7 +19,6 @@ public class Quiz extends BaseEntity{
 
     private String quizTitle;
     private Difficulty difficultyLevel;
-    private boolean isDeleted;
     private int timeLimitMinutes;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(

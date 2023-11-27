@@ -144,6 +144,7 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(UUID questionId) {
         Question question = findQuestionById(questionId);
-        questionRepository.delete(question);
+        question.setDeleted(true);
+        questionRepository.save(question);
     }
 }

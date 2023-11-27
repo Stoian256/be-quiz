@@ -8,6 +8,7 @@ import com.example.bequiz.dto.QuizDTO;
 import com.example.bequiz.repository.QuizRepository;
 import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.utils.EntitiesMapper;
+import com.example.bequiz.validation.EntitiesValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,9 +23,11 @@ public class QuizService{
     private final QuizRepository quizRepository;
     private final EntitiesMapper entitiesMapper;
     private final TagProcessor tagProcessor;
+    private final EntitiesValidator entitiesValidator;
 
     @Transactional
     public QuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
+        entitiesValidator.validateCreateQuizDTO(createQuizDTO);
         List<Tag> tags = tagProcessor.processTags(createQuizDTO.getQuizTags());
         List<Question> questions = createQuizDTO.getQuestions();
         Quiz quiz = Quiz.builder()

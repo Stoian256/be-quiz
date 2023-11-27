@@ -5,7 +5,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.time.Duration;
 import java.util.List;
 
 @Entity
@@ -21,16 +20,14 @@ public class Quiz extends BaseEntity{
     private String quizTitle;
     private Difficulty difficultyLevel;
     private boolean isDeleted;
-    private Duration timeLimit;
-
-
-    @ManyToMany
+    private int timeLimitMinutes;
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name="quiz_tag",
             joinColumns = @JoinColumn(name="quiz_id"),
             inverseJoinColumns = @JoinColumn(name="tag_id")
     )
-    private List<Tag> tags;
+    private List<Tag> quizTags;
     @ManyToMany
     @JoinTable(
             name="quiz_question",

@@ -4,6 +4,7 @@ import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
 import com.example.bequiz.domain.QuestionFilters;
 import com.example.bequiz.domain.Tag;
+import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.exception.EntityValidationException;
@@ -36,6 +37,7 @@ public class QuestionService {
     private final QuestionBooleanBuilder questionBooleanBuilder;
     private final EntitiesMapper entitiesMapper;
     private final EntitiesValidator entitiesValidator;
+    private final TagProcessor tagProcessor;
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
@@ -105,7 +107,7 @@ public class QuestionService {
                 .questionBody(questionDTO.getQuestionBody())
                 .questionTitle(questionDTO.getQuestionTitle())
                 .answers(answersList)
-                .tags(processTags(questionDTO.getTags()))
+                .tags(tagProcessor.processTags(questionDTO.getTags()))
                 .isDeleted(false)
                 .build();
 
@@ -128,7 +130,7 @@ public class QuestionService {
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
-        question.setTags(processTags(createQuestionDTO.getTags()));
+        question.setTags(tagProcessor.processTags(createQuestionDTO.getTags()));
 
         questionRepository.save(question);
     }

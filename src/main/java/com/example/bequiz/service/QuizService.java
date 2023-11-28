@@ -29,7 +29,7 @@ public class QuizService{
     public QuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
         entitiesValidator.validateCreateQuizDTO(createQuizDTO);
         List<Tag> tags = tagProcessor.processTags(createQuizDTO.getQuizTags());
-        List<Question> questions = createQuizDTO.getQuestions();
+        List<Question> questions =entitiesMapper.questionDTOToQuestion(createQuizDTO.getQuestions());
         Quiz quiz = Quiz.builder()
                 .quizTitle(createQuizDTO.getQuizTitle())
                 .difficultyLevel(Difficulty.valueOf(createQuizDTO.getDifficultyLevel().toUpperCase()))

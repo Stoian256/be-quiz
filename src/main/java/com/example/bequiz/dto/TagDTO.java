@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TagDTO {
+
     private UUID id;
     private String tagTitle;
 }

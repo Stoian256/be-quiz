@@ -8,12 +8,16 @@ import com.example.bequiz.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface EntitiesMapper {
     QuestionDTO questionToQuestionDTO(Question question);
 
     TagDTO tagToTagDTO(Tag tag);
     QuizDTO quizToQuizDTO(Quiz quiz);
+
+    List<Question> questionDTOToQuestion(List<QuestionDTO> questionDTOList);
 
     @Mapping(target = "tagTitle",source = "tag")
     Tag mapStringToTag(String tag);

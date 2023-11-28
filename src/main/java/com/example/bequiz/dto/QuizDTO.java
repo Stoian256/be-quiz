@@ -25,20 +25,5 @@ public class QuizDTO {
     private int timeLimitMinutes;
     private List<TagDTO> quizTags;
     private List<QuestionDTO> questions;
-
-
-    @Override
-    public String toString() {
-        return "QuizDTO{" +
-                "id=" + id +
-                ", dateCreated=" + dateCreated +
-                ", createdBy='" + createdBy + '\'' +
-                ", dateLastModified=" + dateLastModified +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' +
-                ", quizTitle='" + quizTitle + '\'' +
-                ", difficultyLevel=" + difficultyLevel +
-                ", timeLimitMinutes=" + timeLimitMinutes +
-                '}';
-    }
 }
 

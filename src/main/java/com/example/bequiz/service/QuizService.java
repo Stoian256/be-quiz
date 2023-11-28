@@ -11,10 +11,12 @@ import com.example.bequiz.utils.EntitiesMapper;
 import com.example.bequiz.validation.EntitiesValidator;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -45,5 +47,12 @@ public class QuizService{
         });
         quiz.setQuestions(questions);
        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
+    }
+
+    @Transactional
+    public void deleteQuestion(UUID uuid){
+        Quiz quiz=quizRepository.findById(uuid).orElseThrow(()->new ObjectNotFoundException(uuid,"Quiz Not Found"));
+        quiz.setDeleted(true);
+        quizRepository.save(quiz);
     }
 }

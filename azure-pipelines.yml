@@ -6,15 +6,16 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+resources:
+- repo: self
 
 stages:
-- stage: Build
-  displayName: "Build Stage"
+- stage: BuildAndTest
+  displayName: "Build And Test Stage "
   jobs:
-  - job: BuildBackend
-    displayName: "Build Backend"
+  - job: BuildAndTestJob
+    pool:
+      vmImage: 'ubuntu-latest'
     steps: 
     - task: Gradle@2
       inputs:
@@ -26,18 +27,32 @@ stages:
         jdkArchitectureOption: 'x64'
         publishJUnitResults: true
         testResultsFiles: '**/TEST-*.xml'
-        tasks: 'build'
+        tasks: 'clean build -x test'
+      displayName: "Build And Test Backend"
 
     - script: |
         echo "Changing file permissions..."
         chmod +x $(System.DefaultWorkingDirectory)/gradlew
       displayName: 'Set execute permission for gradlew'
     
-  - job: DockerBuild
-    displayName: "Docker build"
+- stage: DeployDockerImage
+  jobs:
+  - job: DeployDockerImageJob
+    pool:
+      vmImage: 'ubuntu-latest'
     steps:
+    - checkout: self
     - task: Docker@2
       inputs:
-        command: 'build'
-        Dockerfile: '**/Dockerfile'
-        tags: 'backend-quiz-app:$(Build.BuildId)'
+        containerRegistry: 'bootcampquizapi'
+        command: login
+        arguments: '-u $(DOCKER_USER) -p $(DOCKER_PASS) bootcampquizapi.azurecr.io'
+    - script: |
+        docker build -t bootcampquizapi.azurecr.io/bootcampquiz:latest .
+        docker push bootcampquizapi.azurecr.io/bootcampquizapi:latest
+      displayName: "Build And Push Docker Image"
+
+- stage: TestAndDeploy
+  dependsOn:
+  - BuildAndTest
+  - DeployDockerImage

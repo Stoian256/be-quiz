@@ -14,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -40,9 +39,6 @@ public class QuizService {
                 .quizTags(tags)
                 .build();
         questions.forEach(question -> {
-            if (question.getQuizzes() == null) {
-                question.setQuizzes(new ArrayList<>());
-            }
             question.getQuizzes().add(quiz);
         });
         quiz.setQuestions(questions);
@@ -68,9 +64,6 @@ public class QuizService {
         quiz.setTimeLimitMinutes(createQuizDTO.getTimeLimitMinutes());
         quiz.setQuizTags(tags);
         questions.forEach(question -> {
-            if (question.getQuizzes() == null) {
-                question.setQuizzes(new ArrayList<>());
-            }
             if (!question.getQuizzes().contains(quiz)) {
                 question.getQuizzes().add(quiz);
             }

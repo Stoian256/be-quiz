@@ -6,6 +6,8 @@ public class Constants {
     public static final String PREFIX = "Prefix";
     public static final String TAG = "Tag";
     public static final String QUESTION= "Question";
+    public static final String QUIZ_TITLE="Quiz Title";
+    public static final String QUIZ_TIME_LIMIT="Quiz Time Limit";
     public static final String CREATE_QUESTION_BAD_REQUEST_MESSAGES =
             """
                     Question title can not be null or empty!\n

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.UUID;
 import java.util.List;
-
 import static com.example.bequiz.utils.Constants.*;
 
 @RestController

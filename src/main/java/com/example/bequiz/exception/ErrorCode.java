@@ -14,8 +14,11 @@ public enum ErrorCode {
     INVALID_ITEMS_PER_PAGE(400, "Items per page must be greater then 0!"),
     INVALID_PAGE_INDEX(400, "Page index must be grater than or equal to 0!"),
     INVALID_DIFFICULTY(400, "Difficulty must be EASY, MEDIUM, HARD!"),
+    INVALID_TIME_LIMIT(400,"%s cannot be less than 1 minute!"),
+    INVALID_NUMBER_OF_QUESTIONS(400,"You must assign at least 1 question to a quiz!"),
     VALIDATION_ERROR(400,"%s"),
     NOT_FOUND(404,"%s not found!");
+
 
     private final Integer code;
     private final String message;

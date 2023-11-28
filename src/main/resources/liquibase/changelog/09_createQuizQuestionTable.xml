@@ -1,0 +1,40 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="09_createQuizQuestionTable" author="Alexandru Botez">
+        <validCheckSum>8:c9d697dafe39eef3dec83d1d0743bef9</validCheckSum>
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="quiz_question"/>
+            </not>
+        </preConditions>
+        <createTable tableName="quiz_question">
+            <column name="quiz_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="question_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="addFK_quizQuestion_quiz" author="Alexandru Botez">
+        <addForeignKeyConstraint baseTableName="quiz_question"
+                                 baseColumnNames="quiz_id"
+                                 referencedTableName="quiz"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_quizQuestion_quiz"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="addFK_quizQuestion_question" author="Alexandru Botez">
+        <addForeignKeyConstraint baseTableName="quiz_question"
+                                 baseColumnNames="question_id"
+                                 referencedTableName="question"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_quizQuestion_question"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

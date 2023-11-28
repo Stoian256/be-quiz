@@ -36,6 +36,7 @@ public class QuestionService {
     private final QuestionBooleanBuilder questionBooleanBuilder;
     private final EntitiesMapper entitiesMapper;
     private final EntitiesValidator entitiesValidator;
+    private final TagProcessor tagProcessor;
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
@@ -72,30 +73,6 @@ public class QuestionService {
     }
 
     @Transactional
-    public List<Tag> processTags(List<String> tagList) {
-        if (tagList != null) {
-            return tagList.stream()
-                    .map(string -> {
-                        String trimmedString = string.trim();
-                        if (trimmedString.length() > 1) {
-                            return trimmedString.substring(0, 1).toUpperCase() + trimmedString.substring(1).toLowerCase();
-                        } else {
-                            return trimmedString;
-                        }
-                    })
-                    .map(tagTitle -> {
-                        Tag existingTag = tagRepository.findByTagTitle(tagTitle);
-                        if (existingTag == null) {
-                            existingTag = new Tag(tagTitle, null);
-                            tagRepository.save(existingTag);
-                        }
-                        return existingTag;
-                    }).collect(Collectors.toList());
-        }
-        return null;
-    }
-
-    @Transactional
     public QuestionDTO createQuestion(CreateQuestionDTO questionDTO) {
         entitiesValidator.validateCreateQuestionDTO(questionDTO);
         Difficulty difficulty = Difficulty.valueOf(questionDTO.getDifficulty().toUpperCase());
@@ -105,7 +82,7 @@ public class QuestionService {
                 .questionBody(questionDTO.getQuestionBody())
                 .questionTitle(questionDTO.getQuestionTitle())
                 .answers(answersList)
-                .tags(processTags(questionDTO.getTags()))
+                .tags(tagProcessor.processTags(questionDTO.getTags()))
                 .isDeleted(false)
                 .build();
 
@@ -128,7 +105,7 @@ public class QuestionService {
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
-        question.setTags(processTags(createQuestionDTO.getTags()));
+        question.setTags(tagProcessor.processTags(createQuestionDTO.getTags()));
 
         questionRepository.save(question);
     }
@@ -142,6 +119,7 @@ public class QuestionService {
     @Transactional
     public void deleteQuestion(UUID questionId) {
         Question question = findQuestionById(questionId);
-        questionRepository.delete(question);
+        question.setDeleted(true);
+        questionRepository.save(question);
     }
 }

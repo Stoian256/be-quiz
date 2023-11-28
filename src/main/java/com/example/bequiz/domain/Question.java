@@ -4,8 +4,6 @@ import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import net.minidev.json.annotate.JsonIgnore;
-
 import java.util.List;
 
 @Data
@@ -21,6 +19,7 @@ public class Question extends BaseEntity {
     private String questionTitle;
     private String questionBody;
     private Difficulty difficulty;
+
     @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
     private List<Answer> answers;
 
@@ -32,7 +31,6 @@ public class Question extends BaseEntity {
     )
     private List<Tag> tags;
 
-    @JsonIgnore
     @ManyToMany(mappedBy ="questions")
     private List<Quiz> quizzes;
 }

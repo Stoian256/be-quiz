@@ -6,6 +6,5 @@ import java.util.List;
 
 public interface TagProcessor {
 
-    @Transactional
      List<Tag> processTags(List<String> tagList);
 }

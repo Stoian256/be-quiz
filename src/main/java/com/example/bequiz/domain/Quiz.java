@@ -20,6 +20,7 @@ public class Quiz extends BaseEntity{
     private String quizTitle;
     private Difficulty difficultyLevel;
     private int timeLimitMinutes;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name="quiz_tag",
@@ -27,6 +28,7 @@ public class Quiz extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name="tag_id")
     )
     private List<Tag> quizTags;
+
     @ManyToMany
     @JoinTable(
             name="quiz_question",

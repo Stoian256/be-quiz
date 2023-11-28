@@ -46,5 +46,4 @@ public class QuizService{
         quiz.setQuestions(questions);
        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
     }
-
 }

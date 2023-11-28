@@ -6,4 +6,6 @@
     <include file="changelog/05_addQuestionTitleColumn.xml" relativeToChangelogFile="true" />
     <include file="changelog/06_renameQuestionDifficultyColumn.xml" relativeToChangelogFile="true" />
     <include file="changelog/07_createQuizTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/08_createQuizTagTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/09_createQuizQuestionTable.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

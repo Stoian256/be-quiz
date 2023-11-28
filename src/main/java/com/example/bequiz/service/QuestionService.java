@@ -112,7 +112,7 @@ public class QuestionService {
 
     public Question findQuestionById(UUID id) {
         return questionRepository
-                .findById(id)
+                .findByIdAndIsDeletedFalse(id)
                 .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
     }
 

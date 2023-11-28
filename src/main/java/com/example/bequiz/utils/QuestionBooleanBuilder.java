@@ -26,7 +26,7 @@ public class QuestionBooleanBuilder {
         if (questionFilters.getTags() != null) {
             questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));
         }
-
+        booleanBuilder.and(QQuestion.question.isDeleted.eq(false));
         return booleanBuilder;
     }
 }

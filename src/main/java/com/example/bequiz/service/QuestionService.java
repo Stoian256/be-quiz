@@ -102,7 +102,7 @@ public class QuestionService {
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
         List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
-        entitiesValidator.validateUpdateQuestionDTO(createQuestionDTO);
+        entitiesValidator.validateCreateQuestionDTO(createQuestionDTO);
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());

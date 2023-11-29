@@ -16,6 +16,7 @@ public enum ErrorCode {
     INVALID_DIFFICULTY(400, "Difficulty must be EASY, MEDIUM, HARD!"),
     INVALID_TIME_LIMIT(400,"%s cannot be less than 1 minute!"),
     INVALID_NUMBER_OF_QUESTIONS(400,"You must assign at least 1 question to a quiz!"),
+    DUPLICATE_TAGS(400,"The Tag List cannot contain duplicates!"),
     VALIDATION_ERROR(400,"%s"),
     NOT_FOUND(404,"%s not found!");
 

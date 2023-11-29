@@ -51,8 +51,3 @@ stages:
         docker build -t bootcampquizapi.azurecr.io/be-quizz-app:latest .
         docker push bootcampquizapi.azurecr.io/be-quizz-app:latest
       displayName: "Build And Push Docker Image"
-
-- stage: TestAndDeploy
-  dependsOn:
-  - BuildAndTest
-  - DeployDockerImage

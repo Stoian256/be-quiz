@@ -23,9 +23,7 @@ public class EntitiesValidator {
             throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
         if (tagsAsString != null && tagsAsString.size() > 7)
             throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
-        if (difficulties == null)
-            throw new EntityValidationException(ErrorCode.INVALID_FIELD, DIFFICULTY);
-        try {
+        if (difficulties != null) try {
             difficulties.forEach(difficulty -> Difficulty.valueOf(difficulty.toUpperCase()));
         } catch (IllegalArgumentException ex) {
             throw new EntityValidationException(ErrorCode.INVALID_DIFFICULTY);

@@ -5,6 +5,8 @@ import com.example.bequiz.domain.Quiz;
 import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuizDTO;
 import com.example.bequiz.dto.QuizDTO;
+import com.example.bequiz.exception.EntityValidationException;
+import com.example.bequiz.exception.ErrorCode;
 import com.example.bequiz.repository.QuizRepository;
 import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.utils.EntitiesMapper;
@@ -17,6 +19,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
+import static com.example.bequiz.utils.Constants.QUIZ;
 
 @Service
 @RequiredArgsConstructor
@@ -54,5 +58,11 @@ public class QuizService{
         Quiz quiz=quizRepository.findById(uuid).orElseThrow(()->new ObjectNotFoundException(uuid,"Quiz Not Found"));
         quiz.setDeleted(true);
         quizRepository.save(quiz);
+    }
+
+    public QuizDTO getQuizById(UUID id) {
+        return entitiesMapper.quizToQuizDTO(quizRepository
+                .findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUIZ)));
     }
 }

@@ -28,4 +28,9 @@ public class QuizController {
     public void deleteQuiz(@PathVariable UUID quizId){
         quizService.deleteQuestion(quizId);
     }
+
+    @PutMapping("/update/{id}")
+    public QuizDTO updateQuiz(@PathVariable UUID id,@RequestBody CreateQuizDTO createQuizDTO){
+        return quizService.updateQuiz(id,createQuizDTO);
+    }
 }

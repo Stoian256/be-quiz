@@ -14,13 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class QuizService{
+public class QuizService {
 
     private final QuizRepository quizRepository;
     private final EntitiesMapper entitiesMapper;
@@ -31,7 +30,7 @@ public class QuizService{
     public QuizDTO createQuiz(CreateQuizDTO createQuizDTO) {
         entitiesValidator.validateCreateQuizDTO(createQuizDTO);
         List<Tag> tags = tagProcessor.processTags(createQuizDTO.getQuizTags());
-        List<Question> questions =entitiesMapper.questionDTOToQuestion(createQuizDTO.getQuestions());
+        List<Question> questions = entitiesMapper.questionDTOToQuestion(createQuizDTO.getQuestions());
         Quiz quiz = Quiz.builder()
                 .quizTitle(createQuizDTO.getQuizTitle())
                 .difficultyLevel(Difficulty.valueOf(createQuizDTO.getDifficultyLevel().toUpperCase()))
@@ -40,19 +39,36 @@ public class QuizService{
                 .quizTags(tags)
                 .build();
         questions.forEach(question -> {
-            if (question.getQuizzes()==null){
-                question.setQuizzes(new ArrayList<>());
-            }
             question.getQuizzes().add(quiz);
         });
         quiz.setQuestions(questions);
-       return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
+        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
     }
 
     @Transactional
-    public void deleteQuestion(UUID uuid){
-        Quiz quiz=quizRepository.findById(uuid).orElseThrow(()->new ObjectNotFoundException(uuid,"Quiz Not Found"));
+    public void deleteQuestion(UUID uuid) {
+        Quiz quiz = quizRepository.findById(uuid).orElseThrow(() -> new ObjectNotFoundException(uuid, "Quiz Not Found"));
         quiz.setDeleted(true);
         quizRepository.save(quiz);
+    }
+
+    @Transactional
+    public QuizDTO updateQuiz(UUID id, CreateQuizDTO createQuizDTO) {
+        entitiesValidator.validateCreateQuizDTO(createQuizDTO);
+        List<Tag> tags = tagProcessor.processTags(createQuizDTO.getQuizTags());
+        List<Question> questions = entitiesMapper.questionDTOToQuestion(createQuizDTO.getQuestions());
+        Quiz quiz = quizRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException(id, "Quiz not found"));
+        quiz.setQuizTitle(createQuizDTO.getQuizTitle());
+        quiz.setDifficultyLevel(Difficulty.valueOf(createQuizDTO.getDifficultyLevel().toUpperCase()));
+        quiz.setDeleted(false);
+        quiz.setTimeLimitMinutes(createQuizDTO.getTimeLimitMinutes());
+        quiz.setQuizTags(tags);
+        questions.forEach(question -> {
+            if (!question.getQuizzes().contains(quiz)) {
+                question.getQuizzes().add(quiz);
+            }
+        });
+        quiz.setQuestions(questions);
+        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
     }
 }

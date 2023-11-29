@@ -8,7 +8,7 @@ import net.minidev.json.annotate.JsonIgnore;
 
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true,exclude = {"question"})
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor

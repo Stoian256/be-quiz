@@ -1,6 +1,5 @@
 package com.example.bequiz.validation;
 
-import com.example.bequiz.domain.Question;
 import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.CreateQuizDTO;

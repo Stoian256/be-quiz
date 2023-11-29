@@ -17,11 +17,11 @@ public class QuestionBooleanBuilder {
         }
 
         List<Difficulty> difficulties = questionFilters.getDifficulties();
-        BooleanBuilder difficultiesOrGroup = new BooleanBuilder();
-        if (difficulties != null && !difficulties.isEmpty()) {
+        if (difficulties != null) {
+            BooleanBuilder difficultiesOrGroup = new BooleanBuilder();
             difficulties.forEach(difficulty -> difficultiesOrGroup.or(QQuestion.question.difficulty.eq(difficulty)));
+            booleanBuilder.and(difficultiesOrGroup);
         }
-        booleanBuilder.and(difficultiesOrGroup);
 
         if (questionFilters.getTags() != null) {
             questionFilters.getTags().forEach(tag -> booleanBuilder.and(QQuestion.question.tags.contains(tag)));

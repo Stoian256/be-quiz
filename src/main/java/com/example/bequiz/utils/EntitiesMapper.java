@@ -27,5 +27,5 @@ public interface EntitiesMapper {
 
     @Mapping(target = "isCorrectAnswer", source = "correctAnswer")
     Answer createAnswerDTOToAnswer(CreateAnswerDTO createAnswerDTO);
-    Quiz createQuizDTOtoQuiz(CreateQuizDTO createQuizDTO);
+
 }

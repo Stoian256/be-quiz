@@ -44,15 +44,10 @@ stages:
     - checkout: self
     - task: Docker@2
       inputs:
-        containerRegistry: 'bootcampquizapi'
+        containerRegistry: 'bootcamp-quiz-api'
         command: login
         arguments: '-u $(DOCKER_USER) -p $(DOCKER_PASS) bootcampquizapi.azurecr.io'
     - script: |
-        docker build -t bootcampquizapi.azurecr.io/bootcampquiz:latest .
-        docker push bootcampquizapi.azurecr.io/bootcampquizapi:latest
+        docker build -t bootcampquizapi.azurecr.io/be-quizz-app:latest .
+        docker push bootcampquizapi.azurecr.io/be-quizz-app:latest
       displayName: "Build And Push Docker Image"
-
-- stage: TestAndDeploy
-  dependsOn:
-  - BuildAndTest
-  - DeployDockerImage

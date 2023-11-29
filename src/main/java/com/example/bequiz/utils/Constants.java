@@ -3,8 +3,9 @@ package com.example.bequiz.utils;
 public class Constants {
     public static final String QUESTION_TITLE = "QuestionTitle";
     public static final String DIFFICULTY = "Difficulty";
+    public static final String ANSWERS="Answer List";
     public static final String PREFIX = "Prefix";
-    public static final String TAG = "Tag";
+    public static final String TAG_LIST = "Tag List";
     public static final String QUESTION= "Question";
     public static final String QUIZ= "Quiz";
     public static final String QUIZ_TITLE="Quiz Title";

@@ -1,9 +1,9 @@
 package com.example.bequiz.service;
 
+import com.example.bequiz.domain.TagFilters;
 import com.example.bequiz.dto.TagDTO;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.EntitiesMapper;
-import com.example.bequiz.validation.EntitiesValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -16,8 +16,15 @@ public class TagService {
     private final TagRepository tagRepository;
     private final EntitiesMapper entitiesMapper;
 
-    public List<TagDTO> findByPrefix(String prefix) {
-        return tagRepository.findByTagTitleStartingWithIgnoreCaseOrderByTagTitleAsc(prefix, PageRequest.of(0, 5))
-                .stream().map(entitiesMapper::tagToTagDTO).toList();
+    public List<TagDTO> findAllWithPrefixAndExcludedTags(TagFilters tagFilters) {
+        if (tagFilters != null && tagFilters.getPrefix() != null && tagFilters.getExcludedTags() != null)
+            return tagRepository.findByTagTitleStartingWithIgnoreCaseAndTagTitleNotInIgnoreCaseOrderByTagTitleAsc(
+                            tagFilters.getPrefix(), tagFilters.getExcludedTags(), PageRequest.of(0, 7))
+                    .stream()
+                    .map(entitiesMapper::tagToTagDTO)
+                    .toList();
+        return tagRepository.findAll().stream()
+                .map(entitiesMapper::tagToTagDTO)
+                .toList();
     }
 }

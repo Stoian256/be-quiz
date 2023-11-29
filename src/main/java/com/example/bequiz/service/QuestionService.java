@@ -22,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,8 @@ public class QuestionService {
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
         List<Tag> tags = getTagsFromTagsAsString(tagsAsString);
-        List<Difficulty> enumDifficulties = difficulties.stream().map(difficulty -> Difficulty.valueOf(difficulty.toUpperCase())).toList();
+        List<Difficulty> enumDifficulties = Optional.ofNullable(difficulties).map(list -> list.stream()
+                        .map(difficulty -> Difficulty.valueOf(difficulty.toUpperCase())).toList()).orElse(null);
 
         QuestionFilters questionFilters = QuestionFilters.builder()
                 .itemsPerPage(itemsPerPage)
@@ -100,7 +102,7 @@ public class QuestionService {
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
         List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
-        entitiesValidator.validateUpdateQuestionDTO(createQuestionDTO);
+        entitiesValidator.validateCreateQuestionDTO(createQuestionDTO);
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());

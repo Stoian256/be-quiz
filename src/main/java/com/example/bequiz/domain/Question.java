@@ -8,7 +8,7 @@ import java.util.List;
 
 @Data
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true,exclude = {"tags","quizzes","answers"})
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor

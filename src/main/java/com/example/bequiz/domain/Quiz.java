@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Table(name="quiz")
 @SuperBuilder
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true,exclude = {"questions","quizTags"})
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString(callSuper = true)

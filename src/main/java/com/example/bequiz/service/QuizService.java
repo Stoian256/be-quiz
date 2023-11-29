@@ -22,10 +22,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.example.bequiz.utils.Constants.QUESTION;
+import static com.example.bequiz.utils.Constants.QUIZ;
 
 @Service
 @RequiredArgsConstructor
-public class QuizService {
+public class QuizService{
 
     private final QuizRepository quizRepository;
     private final EntitiesMapper entitiesMapper;
@@ -88,5 +89,11 @@ public class QuizService {
         });
         quiz.setQuestions(questions);
         return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
+    }
+
+    public QuizDTO getQuizById(UUID id) {
+        return entitiesMapper.quizToQuizDTO(quizRepository
+                .findByIdAndIsDeletedFalse(id)
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUIZ)));
     }
 }

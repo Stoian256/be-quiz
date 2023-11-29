@@ -44,7 +44,7 @@ stages:
     - checkout: self
     - task: Docker@2
       inputs:
-        containerRegistry: 'bootcampquizapi'
+        containerRegistry: 'bootcamp-quiz-api'
         command: login
         arguments: '-u $(DOCKER_USER) -p $(DOCKER_PASS) bootcampquizapi.azurecr.io'
     - script: |

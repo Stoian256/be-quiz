@@ -14,7 +14,7 @@ public interface TagRepository extends JpaRepository<Tag, UUID> {
 
     Tag findByTagTitle(String tagTitle);
 
-    List<Tag> findByTagTitleStartingWithIgnoreCaseOrderByTagTitleAsc(String searchString, PageRequest of);
+    List<Tag> findByTagTitleStartingWithIgnoreCaseAndTagTitleNotInIgnoreCaseOrderByTagTitleAsc(String searchString, List<String> excludedTags, PageRequest of);
 
     Optional<Tag> findOptionalByTagTitleIgnoreCase(String tagTitle);
 }

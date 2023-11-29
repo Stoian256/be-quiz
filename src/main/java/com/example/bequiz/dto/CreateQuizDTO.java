@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder
@@ -17,5 +18,5 @@ public class CreateQuizDTO {
     private String difficultyLevel;
     private int timeLimitMinutes;
     private List<String> quizTags;
-    private List<QuestionDTO> questions;
+    private List<UUID> questions;
 }

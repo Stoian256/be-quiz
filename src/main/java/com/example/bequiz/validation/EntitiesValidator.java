@@ -9,7 +9,6 @@ import com.example.bequiz.utils.Difficulty;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-
 import static com.example.bequiz.utils.Constants.*;
 
 @Component

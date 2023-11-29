@@ -13,4 +13,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handle(EntityValidationException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.valueOf(exception.getErrorCode().getCode()));
     }
+
+//    @ExceptionHandler(value= NullPointerException.class)
+//    public ResponseEntity<String> handle(NullPointerException nullPointerException){
+//        return new ResponseEntity<>()
+//    }
 }

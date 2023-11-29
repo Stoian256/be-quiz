@@ -19,7 +19,7 @@ public class TagController {
     private final TagService tagService;
 
     @GetMapping
-    public List<TagDTO> findAll(@RequestParam String prefix) {
+    public List<TagDTO> findAll(@RequestParam(required = false) String prefix) {
         return tagService.findByPrefix(prefix);
     }
 }

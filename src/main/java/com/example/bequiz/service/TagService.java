@@ -17,7 +17,13 @@ public class TagService {
     private final EntitiesMapper entitiesMapper;
 
     public List<TagDTO> findByPrefix(String prefix) {
-        return tagRepository.findByTagTitleStartingWithIgnoreCaseOrderByTagTitleAsc(prefix, PageRequest.of(0, 5))
-                .stream().map(entitiesMapper::tagToTagDTO).toList();
+        if(prefix!=null && !prefix.isEmpty())
+            return tagRepository.findByTagTitleStartingWithIgnoreCaseOrderByTagTitleAsc(prefix, PageRequest.of(0, 5))
+                    .stream()
+                    .map(entitiesMapper::tagToTagDTO)
+                    .toList();
+        return tagRepository.findAll().stream()
+                .map(entitiesMapper::tagToTagDTO)
+                .toList();
     }
 }

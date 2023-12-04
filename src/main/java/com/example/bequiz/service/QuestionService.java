@@ -2,14 +2,13 @@ package com.example.bequiz.service;
 
 import com.example.bequiz.domain.Answer;
 import com.example.bequiz.domain.Question;
-import com.example.bequiz.domain.QuestionFilters;
+import com.example.bequiz.domain.FindAllFilters;
 import com.example.bequiz.domain.Tag;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.exception.EntityValidationException;
 import com.example.bequiz.exception.ErrorCode;
 import com.example.bequiz.repository.QuestionRepository;
-import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.validation.EntitiesValidator;
 import jakarta.transaction.Transactional;
@@ -33,19 +32,18 @@ import static com.example.bequiz.utils.Constants.QUESTION;
 public class QuestionService {
 
     private final QuestionRepository questionRepository;
-    private final TagRepository tagRepository;
     private final QuestionBooleanBuilder questionBooleanBuilder;
     private final EntitiesMapper entitiesMapper;
     private final EntitiesValidator entitiesValidator;
     private final TagProcessor tagProcessor;
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
-        entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
-        List<Tag> tags = getTagsFromTagsAsString(tagsAsString);
+        entitiesValidator.validateFindAllFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
+        List<Tag> tags = tagProcessor.getTagsFromTagsAsString(tagsAsString);
         List<Difficulty> enumDifficulties = Optional.ofNullable(difficulties).map(list -> list.stream()
-                        .map(difficulty -> Difficulty.valueOf(difficulty.toUpperCase())).toList()).orElse(null);
+                .map(difficulty -> Difficulty.valueOf(difficulty.toUpperCase())).toList()).orElse(null);
 
-        QuestionFilters questionFilters = QuestionFilters.builder()
+        FindAllFilters questionFilters = FindAllFilters.builder()
                 .itemsPerPage(itemsPerPage)
                 .pageIndex(pageIndex)
                 .keyword(keyword)
@@ -62,16 +60,6 @@ public class QuestionService {
                 .findAll(questionBooleanBuilder.buildBooleanFromQuestionFilters(questionFilters),
                         pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::questionToQuestionDTO);
-    }
-
-    public List<Tag> getTagsFromTagsAsString(List<String> tagsAsString) {
-        if (tagsAsString == null)
-            return null;
-
-        return tagsAsString.stream()
-                .map(tagTitle -> tagRepository.findOptionalByTagTitleIgnoreCase(tagTitle)
-                        .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, "Tag " + tagTitle)))
-                .collect(Collectors.toList());
     }
 
     @Transactional

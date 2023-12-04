@@ -22,7 +22,7 @@ public class QuizDTO {
     private LocalDateTime dateLastModified;
     private String lastModifiedBy;
     private String quizTitle;
-    private Difficulty difficultyLevel;
+    private String difficultyLevel;
     private int timeLimitMinutes;
     private List<TagDTO> quizTags;
     private List<QuestionDTO> questions;

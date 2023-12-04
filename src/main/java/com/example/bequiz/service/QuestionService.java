@@ -104,7 +104,7 @@ public class QuestionService {
         List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
         entitiesValidator.validateCreateQuestionDTO(createQuestionDTO);
         question.setAnswers(answers);
-        question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty()));
+        question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty().toUpperCase()));
         question.setQuestionTitle(createQuestionDTO.getQuestionTitle());
         question.setQuestionBody(createQuestionDTO.getQuestionBody());
         question.setTags(tagProcessor.processTags(createQuestionDTO.getTags()));

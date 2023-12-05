@@ -3,7 +3,6 @@ package com.example.bequiz.controller;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.service.QuestionService;
-import com.example.bequiz.utils.Difficulty;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -41,7 +40,7 @@ public class QuestionController {
     @Operation(
             responses = {
                     @ApiResponse(responseCode = "200"),
-                    @ApiResponse(responseCode = "400", description = RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES, content = @Content)
+                    @ApiResponse(responseCode = "400", description = INVALID_RETRIEVE_PARAMS_MESSAGES, content = @Content)
             })
     @GetMapping
     public Page<QuestionDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) List<String> difficulties, @RequestParam(required = false) List<String> tags) {
@@ -77,5 +76,10 @@ public class QuestionController {
     @PutMapping("/update/{id}")
     public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {
         questionService.editQuestion(id, createQuestionDTO);
+    }
+
+    @PostMapping("/get-by-ids")
+    public List<QuestionDTO> getQuestionsByIds(@RequestBody List<UUID> questionIds) {
+        return questionService.getQuestionsByIds(questionIds);
     }
 }

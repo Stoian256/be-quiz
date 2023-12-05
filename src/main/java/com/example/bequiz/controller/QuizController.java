@@ -16,7 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.bequiz.utils.Constants.RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES;
+import static com.example.bequiz.utils.Constants.INVALID_RETRIEVE_PARAMS_MESSAGES;
+
 
 @RestController
 @RequiredArgsConstructor
@@ -46,7 +47,7 @@ public class QuizController {
     @Operation(
             responses = {
                     @ApiResponse(responseCode = "200"),
-                    @ApiResponse(responseCode = "400", description = RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES, content = @Content)
+                    @ApiResponse(responseCode = "400", description = INVALID_RETRIEVE_PARAMS_MESSAGES, content = @Content)
             })
     @GetMapping
     public Page<RetrieveQuizDTO> findAll(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) String keyword, @RequestParam(required = false) List<String> difficultyLevels, @RequestParam(required = false) List<String> tags) {

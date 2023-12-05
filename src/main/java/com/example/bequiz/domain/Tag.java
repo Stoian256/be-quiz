@@ -3,6 +3,7 @@ package com.example.bequiz.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "tag")
+@Where(clause = "is_deleted = false")
 public class Tag extends BaseEntity {
 
     private String tagTitle;

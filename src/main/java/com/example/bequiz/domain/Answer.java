@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import net.minidev.json.annotate.JsonIgnore;
+import org.hibernate.annotations.Where;
 
 @Data
 @SuperBuilder
@@ -14,6 +15,7 @@ import net.minidev.json.annotate.JsonIgnore;
 @AllArgsConstructor
 @Entity
 @Table(name = "answer")
+@Where(clause = "is_deleted = false")
 public class Answer extends BaseEntity {
 
     private String answerContent;

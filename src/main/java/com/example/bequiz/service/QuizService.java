@@ -63,7 +63,7 @@ public class QuizService{
 
     private List<Question> getQuestions(CreateQuizDTO createQuizDTO) {
         return createQuizDTO.getQuestions().stream()
-                .map(id -> questionRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).toList();
+                .map(id -> questionRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).collect(Collectors.toList());
     }
 
     @Transactional

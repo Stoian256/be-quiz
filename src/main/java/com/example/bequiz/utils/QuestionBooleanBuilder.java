@@ -1,7 +1,7 @@
 package com.example.bequiz.utils;
 
 import com.example.bequiz.domain.QQuestion;
-import com.example.bequiz.domain.QuestionFilters;
+import com.example.bequiz.domain.FindAllFilters;
 import org.springframework.stereotype.Component;
 import com.querydsl.core.BooleanBuilder;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Component
 public class QuestionBooleanBuilder {
-    public BooleanBuilder buildBooleanFromQuestionFilters(QuestionFilters questionFilters) {
+    public BooleanBuilder buildBooleanFromQuestionFilters(FindAllFilters questionFilters) {
         BooleanBuilder booleanBuilder = new BooleanBuilder();
 
         if (questionFilters.getKeyword() != null) {

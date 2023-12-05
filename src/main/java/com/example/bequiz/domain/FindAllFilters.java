@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class QuestionFilters {
+public class FindAllFilters {
     Integer itemsPerPage;
     Integer pageIndex;
     String keyword;

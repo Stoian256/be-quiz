@@ -78,8 +78,8 @@ public class QuestionController {
         questionService.editQuestion(id, createQuestionDTO);
     }
 
-    @GetMapping("/find-by-ids")
-    public List<QuestionDTO> getQuestionsByIds(@RequestParam List<UUID> ids) {
-        return questionService.getQuestionsByIds(ids);
+    @PostMapping("/get-by-ids")
+    public List<QuestionDTO> getQuestionsByIds(@RequestBody List<UUID> questionIds) {
+        return questionService.getQuestionsByIds(questionIds);
     }
 }

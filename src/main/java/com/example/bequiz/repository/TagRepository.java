@@ -3,6 +3,8 @@ package com.example.bequiz.repository;
 import com.example.bequiz.domain.Tag;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -17,4 +19,15 @@ public interface TagRepository extends JpaRepository<Tag, UUID> {
     List<Tag> findByTagTitleStartingWithIgnoreCaseAndTagTitleNotInIgnoreCaseOrderByTagTitleAsc(String searchString, List<String> excludedTags, PageRequest of);
 
     Optional<Tag> findOptionalByTagTitleIgnoreCase(String tagTitle);
+
+    @Query(value = "SELECT t.* FROM Tag t " +
+            "INNER JOIN quiz_tag qt ON t.id = qt.tag_id " +
+            "WHERE t.tag_title LIKE %:query% " +
+            "AND t.tag_title NOT IN :excludeTags " +
+            "GROUP BY t.id " +
+            "ORDER BY COUNT(qt.tag_id) DESC",
+    nativeQuery = true)
+    List<Tag> findTopPopularTags(@Param("query") String query,
+                                 @Param("excludeTags") List<String> excludeTags);
 }
+

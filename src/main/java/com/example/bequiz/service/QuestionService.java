@@ -8,6 +8,7 @@ import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.QuestionDTO;
 import com.example.bequiz.exception.EntityValidationException;
 import com.example.bequiz.exception.ErrorCode;
+import com.example.bequiz.repository.AnswerRepository;
 import com.example.bequiz.repository.QuestionRepository;
 import com.example.bequiz.repository.TagRepository;
 import com.example.bequiz.utils.Difficulty;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -38,6 +40,7 @@ public class QuestionService {
     private final EntitiesMapper entitiesMapper;
     private final EntitiesValidator entitiesValidator;
     private final TagProcessor tagProcessor;
+    private final AnswerRepository answerRepository;
 
     public Page<QuestionDTO> findAll(Integer itemsPerPage, Integer pageIndex, String keyword, List<String> difficulties, List<String> tagsAsString) {
         entitiesValidator.validateQuestionFilters(itemsPerPage, pageIndex, tagsAsString, difficulties);
@@ -101,7 +104,8 @@ public class QuestionService {
     @Transactional
     public void editQuestion(UUID uuid, CreateQuestionDTO createQuestionDTO) {
         Question question = findQuestionById(uuid);
-        List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(), question)).collect(Collectors.toList());
+        question.getAnswers().forEach(answer -> answer.setDeleted(true));
+        List<Answer> answers = createQuestionDTO.getAnswers().stream().map(answerDTO -> new Answer(answerDTO.getAnswerContent(), answerDTO.isCorrectAnswer(),question)).collect(Collectors.toList());
         entitiesValidator.validateCreateQuestionDTO(createQuestionDTO);
         question.setAnswers(answers);
         question.setDifficulty(Difficulty.valueOf(createQuestionDTO.getDifficulty().toUpperCase()));

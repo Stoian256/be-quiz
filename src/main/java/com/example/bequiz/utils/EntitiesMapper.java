@@ -17,6 +17,7 @@ public interface EntitiesMapper {
     QuestionDTO questionToQuestionDTO(Question question);
 
     TagDTO tagToTagDTO(Tag tag);
+    List<TagDTO> tagListToTagDTOList(List<Tag> tags);
 
     @Mapping(target = "difficultyLevel" ,source = "quiz.difficultyLevel")
     QuizDTO quizToQuizDTO(Quiz quiz);

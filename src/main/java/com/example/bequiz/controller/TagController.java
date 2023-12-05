@@ -20,4 +20,9 @@ public class TagController {
     public List<TagDTO> findAll(@RequestBody(required = false) TagFilters tagFilters) {
         return tagService.findAllWithPrefixAndExcludedTags(tagFilters);
     }
-}
+
+    @GetMapping("/top")
+    public List<TagDTO> findMostPopularTagsForQuizzes(@RequestParam String query, @RequestParam List<String> excludedTags, @RequestParam int numberOfResults){
+       return  tagService.findMostPopularQuizTags(query,excludedTags,numberOfResults);
+    }
+ }

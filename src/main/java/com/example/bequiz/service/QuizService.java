@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import static com.example.bequiz.utils.Constants.QUESTION;
 import static com.example.bequiz.utils.Constants.QUIZ;
@@ -58,7 +59,7 @@ public class QuizService{
 
     private List<Question> getQuestions(CreateQuizDTO createQuizDTO) {
         return createQuizDTO.getQuestions().stream()
-                .map(id->questionRepository.findByIdAndIsDeletedFalse(id).orElseThrow(()-> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).toList();
+                .map(id->questionRepository.findByIdAndIsDeletedFalse(id).orElseThrow(()-> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).collect(Collectors.toList());
     }
 
     @Transactional
@@ -88,7 +89,8 @@ public class QuizService{
             }
         });
         quiz.setQuestions(questions);
-        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
+        quizRepository.save(quiz);
+        return entitiesMapper.quizToQuizDTO(quiz);
     }
 
     public QuizDTO getQuizById(UUID id) {

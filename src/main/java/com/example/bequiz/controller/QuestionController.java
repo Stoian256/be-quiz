@@ -77,4 +77,9 @@ public class QuestionController {
     public void updateQuestion(@PathVariable UUID id, @RequestBody CreateQuestionDTO createQuestionDTO) {
         questionService.editQuestion(id, createQuestionDTO);
     }
+
+    @GetMapping("/find-by-ids")
+    public List<QuestionDTO> getQuestionsByIds(@RequestParam List<UUID> ids) {
+        return questionService.getQuestionsByIds(ids);
+    }
 }

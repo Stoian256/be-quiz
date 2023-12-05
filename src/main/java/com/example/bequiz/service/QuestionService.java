@@ -106,6 +106,10 @@ public class QuestionService {
                 .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
     }
 
+    public List<QuestionDTO> getQuestionsByIds(List<UUID> questionIds) {
+        return questionRepository.findAllById(questionIds).stream().map(entitiesMapper::questionToQuestionDTO).toList();
+    }
+
     @Transactional
     public void deleteQuestion(UUID questionId) {
         Question question = findQuestionById(questionId);

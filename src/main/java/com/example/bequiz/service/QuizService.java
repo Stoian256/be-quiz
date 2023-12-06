@@ -97,7 +97,7 @@ public class QuizService {
 
     public QuizDTO getQuizById(UUID id) {
         return entitiesMapper.quizToQuizDTO(quizRepository
-                .findByIdAndIsDeletedFalse(id)
+                .findById(id)
                 .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUIZ)));
     }
 

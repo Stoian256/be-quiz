@@ -15,7 +15,7 @@ import static com.example.bequiz.utils.Constants.*;
 @Component
 public class EntitiesValidator {
 
-    public void validateQuestionFilters(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString, List<String> difficulties) {
+    public void validateFindAllFilters(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString, List<String> difficulties) {
         if (itemsPerPage != null && itemsPerPage < 1)
             throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);
         if (pageIndex != null && pageIndex < 0)
@@ -42,7 +42,7 @@ public class EntitiesValidator {
         if (createQuestionDTO.getAnswers() == null) {
             throw new EntityValidationException(ErrorCode.INVALID_FIELD, ANSWERS);
         }
-        if (createQuestionDTO.getTags().stream().distinct().count() != createQuestionDTO.getTags().size()){
+        if (createQuestionDTO.getTags().stream().distinct().count() != createQuestionDTO.getTags().size()) {
             throw new EntityValidationException(ErrorCode.DUPLICATE_TAGS);
         }
         try {

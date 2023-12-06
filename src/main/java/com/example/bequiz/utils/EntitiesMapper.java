@@ -1,9 +1,6 @@
 package com.example.bequiz.utils;
 
-import com.example.bequiz.domain.Answer;
-import com.example.bequiz.domain.Question;
-import com.example.bequiz.domain.Quiz;
-import com.example.bequiz.domain.Tag;
+import com.example.bequiz.domain.*;
 import com.example.bequiz.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -23,7 +20,7 @@ public interface EntitiesMapper {
 
     List<Question> questionDTOToQuestion(List<QuestionDTO> questionDTOList);
 
-    @Mapping(target = "tagTitle",source = "tag")
+    @Mapping(target = "tagTitle", source = "tag")
     Tag mapStringToTag(String tag);
 
     @Mapping(target = "isCorrectAnswer", source = "correctAnswer")
@@ -41,4 +38,10 @@ public interface EntitiesMapper {
         return null;
     }
 
+    @Mapping(target = "numberOfQuestions", source = "questions")
+    RetrieveQuizDTO quizToRetrieveQuizDTO(Quiz quiz);
+
+    default Integer mapQuestionsToNumberOfQuestions(List<Question> questions) {
+        return questions != null ? questions.size() : 0;
+    }
 }

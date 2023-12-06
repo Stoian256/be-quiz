@@ -19,11 +19,11 @@ public class Constants {
                     You are allowed to assign maximum 7 tags to a question!\n
                     You must assign at least 1 correct answers to a question!\n
                     """;
-    public static final String RETRIEVE_QUESTIONS_BAD_REQUEST_MESSAGES =
+    public static final String INVALID_RETRIEVE_PARAMS_MESSAGES =
             """
                     Items per page must be grater then 0!\n
                     Page index must be greater than or equal to 0!\n
-                    You are allowed to assign maximum 7 tags to a question!\n
+                    You are allowed to search with maximum 7 tags!\n
                     """;
     public static final String UPDATE_QUESTION_BAD_REQUEST_MESSAGES =
             """

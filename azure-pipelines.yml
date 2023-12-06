@@ -9,6 +9,12 @@ trigger:
 resources:
 - repo: self
 
+variables:
+  dockerRegistryServiceConnection: 'Pipeline automation for quiz app.'
+  imageRepository: 'bootcampquizapi'
+  dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
+  tag: '$(Build.BuildId)'
+
 stages:
 - stage: BuildAndTest
   displayName: "Build And Test Stage "
@@ -35,19 +41,24 @@ stages:
         chmod +x $(System.DefaultWorkingDirectory)/gradlew
       displayName: 'Set execute permission for gradlew'
     
-- stage: DeployDockerImage
+- stage: Build
+  displayName: Build and publish stage
   jobs:
-  - job: DeployDockerImageJob
+  - job: Build
+    displayName: Build job
     pool:
-      vmImage: 'ubuntu-latest'
+      name: QuizPool
     steps:
-    - checkout: self
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'bootcamp-quiz-api'
-        command: login
-        arguments: '-u $(DOCKER_USER) -p $(DOCKER_PASS) bootcampquizapi.azurecr.io'
-    - script: |
-        docker build -t bootcampquizapi.azurecr.io/be-quizz-app:latest .
-        docker push bootcampquizapi.azurecr.io/be-quizz-app:latest
-      displayName: "Build And Push Docker Image"
+      - task: DockerInstaller@0
+        inputs:
+          dockerVersion: '17.09.0-ce'
+      
+      - task: Docker@2
+        displayName: Build and publish image to Azure Container Registry
+        inputs:
+          command: buildAndPush
+          containerRegistry: $(dockerRegistryServiceConnection)
+          repository: $(imageRepository)
+          dockerfile: $(dockerfilePath)
+          tags: |
+            $(tag)

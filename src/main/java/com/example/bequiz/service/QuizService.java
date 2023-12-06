@@ -30,7 +30,7 @@ import static com.example.bequiz.utils.Constants.QUIZ;
 
 @Service
 @RequiredArgsConstructor
-public class QuizService{
+public class QuizService {
 
     private final QuizRepository quizRepository;
     private final EntitiesMapper entitiesMapper;
@@ -63,7 +63,7 @@ public class QuizService{
 
     private List<Question> getQuestions(CreateQuizDTO createQuizDTO) {
         return createQuizDTO.getQuestions().stream()
-                .map(id -> questionRepository.findByIdAndIsDeletedFalse(id).orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).collect(Collectors.toList());
+                .map(id -> questionRepository.findById(id).orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION))).collect(Collectors.toList());
     }
 
     @Transactional
@@ -93,13 +93,12 @@ public class QuizService{
             }
         });
         quiz.setQuestions(questions);
-        quizRepository.save(quiz);
-        return entitiesMapper.quizToQuizDTO(quiz);
+        return entitiesMapper.quizToQuizDTO(quizRepository.save(quiz));
     }
 
     public QuizDTO getQuizById(UUID id) {
         return entitiesMapper.quizToQuizDTO(quizRepository
-                .findByIdAndIsDeletedFalse(id)
+                .findById(id)
                 .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUIZ)));
     }
 

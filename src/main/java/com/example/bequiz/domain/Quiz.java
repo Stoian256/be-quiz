@@ -4,6 +4,7 @@ import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Where;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString(callSuper = true)
 @Data
+@Where(clause = "is_deleted = false")
 public class Quiz extends BaseEntity{
 
     private String quizTitle;

@@ -16,12 +16,7 @@ import static com.example.bequiz.utils.Constants.*;
 public class EntitiesValidator {
 
     public void validateFindAllFilters(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString, List<String> difficulties) {
-        if (itemsPerPage != null && itemsPerPage < 1)
-            throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);
-        if (pageIndex != null && pageIndex < 0)
-            throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
-        if (tagsAsString != null && tagsAsString.size() > 7)
-            throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
+        validatePaginationParamsAndTags(itemsPerPage, pageIndex, tagsAsString);
         if (difficulties != null) try {
             difficulties.forEach(difficulty -> Difficulty.valueOf(difficulty.toUpperCase()));
         } catch (IllegalArgumentException ex) {
@@ -82,5 +77,14 @@ public class EntitiesValidator {
         if (createQuizDTO.getTimeLimitMinutes() < 1) {
             throw new EntityValidationException(ErrorCode.INVALID_TIME_LIMIT, QUIZ_TIME_LIMIT);
         }
+    }
+
+    public void validatePaginationParamsAndTags(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString) {
+        if (itemsPerPage != null && itemsPerPage < 1)
+            throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);
+        if (pageIndex != null && pageIndex < 0)
+            throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
+        if (tagsAsString != null && tagsAsString.size() > 7)
+            throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
     }
 }

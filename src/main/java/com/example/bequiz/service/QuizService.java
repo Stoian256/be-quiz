@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -121,6 +122,20 @@ public class QuizService {
 
         return quizRepository
                 .findAll(quizBooleanBuilder.buildBooleanFromQuizFilters(quizFilters), pageRequest)
+                .map(entitiesMapper::quizToRetrieveQuizDTO);
+    }
+
+    public Page<RetrieveQuizDTO> searchQuizzesByTags(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString) {
+        entitiesValidator.validatePaginationParamsAndTags(itemsPerPage, pageIndex, tagsAsString);
+
+        PageRequest pageRequest = (itemsPerPage != null && pageIndex != null) ?
+                PageRequest.of(pageIndex, itemsPerPage) :
+                PageRequest.of(0, 10);
+
+        Sort defaultSort = Sort.by(Sort.Direction.DESC, "dateLastModified", "dateCreated");
+
+        return quizRepository
+                .findQuizzesByTagsOrderByTagMatches(tagsAsString, pageRequest.withSort(defaultSort))
                 .map(entitiesMapper::quizToRetrieveQuizDTO);
     }
 }

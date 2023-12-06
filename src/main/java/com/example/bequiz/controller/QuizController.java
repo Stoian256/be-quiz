@@ -63,4 +63,15 @@ public class QuizController {
     public QuizDTO getQuizById(@PathVariable("id") UUID id) {
         return quizService.getQuizById(id);
     }
+
+    @Operation(
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "400", description = INVALID_RETRIEVE_PARAMS_MESSAGES, content = @Content)
+            })
+    @GetMapping("search-by-tags")
+    @PreAuthorize("permitAll()")
+    public Page<RetrieveQuizDTO> searchQuizzesByTags(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) List<String> tags) {
+        return quizService.searchQuizzesByTags(itemsPerPage, pageIndex, tags);
+    }
 }

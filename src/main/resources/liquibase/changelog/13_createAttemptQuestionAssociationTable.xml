@@ -1,0 +1,39 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.0.xsd">
+
+    <changeSet id="13_createAttemptQuestionAssociationTable" author="Silviu Stoian">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="attempt_question_association"/>
+            </not>
+        </preConditions>
+        <createTable tableName="attempt_question_association">
+            <column name="attempt_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="attempt_question_id" type="uuid">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="addFK_attemptQuestionAssociation_attempt" author="Silviu Stoian">
+        <addForeignKeyConstraint baseTableName="attempt_question_association"
+                                 baseColumnNames="attempt_id"
+                                 referencedTableName="attempt"
+                                 referencedColumnNames="attempt_id"
+                                 constraintName="FK_attemptQuestionAssociation_attempt"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+
+    <changeSet id="addFK_attemptQuestionAssociation_question" author="Silviu Stoian">
+        <addForeignKeyConstraint baseTableName="attempt_question_association"
+                                 baseColumnNames="attempt_question_id"
+                                 referencedTableName="attempt_question"
+                                 referencedColumnNames="id"
+                                 constraintName="FK_attemptQuestionAssociation_question"
+                                 onDelete="CASCADE"/>
+    </changeSet>
+</databaseChangeLog>

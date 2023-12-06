@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,5 +27,9 @@ public class TagService {
         return tagRepository.findAll().stream()
                 .map(entitiesMapper::tagToTagDTO)
                 .toList();
+    }
+
+    public List<TagDTO> findMostPopularQuizTags(String query, List<String> excludedTags,int numberOfResults) {
+       return entitiesMapper.tagListToTagDTOList(tagRepository.findTopPopularTags(query,excludedTags).stream().limit(numberOfResults).collect(Collectors.toList()));
     }
 }

@@ -8,4 +8,8 @@
     <include file="changelog/07_createQuizTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/08_createQuizTagTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/09_createQuizQuestionTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/10_createAttemptQuestionTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/11_createAnswerOptionTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/12_createAttemptTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/13_createAttemptQuestionAssociationTable.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

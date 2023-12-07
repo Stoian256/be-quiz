@@ -88,4 +88,16 @@ public class QuizController {
     public AttemptDTO startQuiz(@RequestBody UUID quizId) {
         return attemptService.startQuiz(quizId);
     }
+
+    @Operation(
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "404", description = "Attempt not found!", content = @Content)
+            })
+    @PostMapping("/end-quiz")
+    @PreAuthorize("permitAll()")
+    public Double endQuiz(@RequestBody UUID attemptId) {
+        return attemptService.endQuiz(attemptId);
+    }
+
 }

@@ -8,6 +8,7 @@ public class Constants {
     public static final String TAG_LIST = "Tag List";
     public static final String QUESTION= "Question";
     public static final String QUIZ= "Quiz";
+    public static final String ATTEMPT= "Attempt";
     public static final String QUIZ_TITLE="Quiz Title";
     public static final String QUIZ_TIME_LIMIT="Quiz Time Limit";
     public static final String CREATE_QUESTION_BAD_REQUEST_MESSAGES =

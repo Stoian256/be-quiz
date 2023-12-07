@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import static com.example.bequiz.utils.Constants.ATTEMPT;
 import static com.example.bequiz.utils.Constants.QUIZ;
 
 @Service
@@ -57,5 +58,22 @@ public class AttemptService {
         });
 
         return entitiesMapper.attemptToAttemptDTO(attemptRepository.save(attempt));
+    }
+
+    public Double endQuiz(UUID attemptId) {
+        Attempt attempt = attemptRepository.findById(attemptId)
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, ATTEMPT));
+
+        long totalCorrectQuestions = attempt.getQuestions().stream()
+                .filter(this::areAllCorrectAnswersSelected)
+                .count();
+
+        double totalQuestions = attempt.getQuestions().size();
+        return totalCorrectQuestions / totalQuestions * 100;
+    }
+
+    private boolean areAllCorrectAnswersSelected(AttemptQuestion attemptQuestion) {
+        return attemptQuestion.getAnswers().stream()
+                .allMatch(answerOption -> answerOption.isCorrectAnswer() == answerOption.isSelected());
     }
 }

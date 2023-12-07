@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+import static com.example.bequiz.utils.Constants.ATTEMPT_QUESTION_ANSWER_NOT_FOUND;
 import static com.example.bequiz.utils.Constants.INVALID_RETRIEVE_PARAMS_MESSAGES;
 
 
@@ -95,6 +96,17 @@ public class QuizController {
     @PreAuthorize("permitAll()")
     public Double endQuiz(@RequestBody EndQuizRequestDTO endQuizRequestDTO) {
         return attemptService.endQuiz(endQuizRequestDTO.getAttemptId());
+    }
+
+    @Operation(
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "404", description = ATTEMPT_QUESTION_ANSWER_NOT_FOUND, content = @Content),
+            })
+    @PostMapping("/add-answer")
+    @PreAuthorize("permitAll()")
+    public void addAnswer(@RequestBody AddAnswerRequestDTO addAnswerRequestDTO) {
+        attemptService.addAnswer(addAnswerRequestDTO);
     }
 
 }

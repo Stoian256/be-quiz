@@ -1,5 +1,6 @@
 package com.example.bequiz.validation;
 
+import com.example.bequiz.domain.AnswerOption;
 import com.example.bequiz.dto.CreateAnswerDTO;
 import com.example.bequiz.dto.CreateQuestionDTO;
 import com.example.bequiz.dto.CreateQuizDTO;
@@ -8,7 +9,9 @@ import com.example.bequiz.exception.ErrorCode;
 import com.example.bequiz.utils.Difficulty;
 import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 
 import static com.example.bequiz.utils.Constants.*;
 
@@ -86,5 +89,15 @@ public class EntitiesValidator {
             throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
         if (tagsAsString != null && tagsAsString.size() > 7)
             throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
+    }
+
+    public void validateSelectedAnswersIds(List<UUID> selectedAnswers, List<AnswerOption> possibleAnswers) {
+        boolean allIdsPresent = selectedAnswers.stream()
+                .allMatch(id -> possibleAnswers.stream()
+                        .anyMatch(answerOption -> answerOption.getAnswerOptionId().equals(id)));
+
+        if (!allIdsPresent) {
+            throw new EntityValidationException(ErrorCode.NOT_FOUND, ANSWER);
+        }
     }
 }

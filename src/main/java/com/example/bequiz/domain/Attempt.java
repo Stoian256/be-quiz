@@ -11,7 +11,9 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -46,4 +48,13 @@ public class Attempt {
             inverseJoinColumns = @JoinColumn(name = "attempt_question_id")
     )
     private List<AttemptQuestion> questions;
+
+    public void addAttemptQuestion(AttemptQuestion attemptQuestion) {
+        questions = Optional.ofNullable(questions).orElse(new ArrayList<>());
+
+        if (!questions.contains(attemptQuestion)) {
+            questions.add(attemptQuestion);
+            attemptQuestion.addAttempt(this);
+        }
+    }
 }

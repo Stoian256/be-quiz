@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +31,9 @@ public class TagService {
     }
 
     public List<TagDTO> findMostPopularQuizTags(String query, List<String> excludedTags,int numberOfResults) {
+        if (excludedTags == null){
+            excludedTags=new ArrayList<>();
+        }
        return entitiesMapper.tagListToTagDTOList(tagRepository.findTopPopularTags(query,excludedTags).stream().limit(numberOfResults).collect(Collectors.toList()));
     }
 }

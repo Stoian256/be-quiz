@@ -22,8 +22,8 @@ public interface TagRepository extends JpaRepository<Tag, UUID> {
 
     @Query(value = "SELECT t.* FROM Tag t " +
             "INNER JOIN quiz_tag qt ON t.id = qt.tag_id " +
-            "WHERE t.tag_title LIKE %:query% " +
-            "AND t.tag_title NOT IN :excludeTags " +
+            "WHERE (:query IS NULL OR t.tag_title LIKE %:query%) " +
+            "AND (COALESCE(:excludeTags) IS NULL OR t.tag_title NOT IN :excludeTags) " +
             "GROUP BY t.id " +
             "ORDER BY COUNT(qt.tag_id) DESC",
     nativeQuery = true)

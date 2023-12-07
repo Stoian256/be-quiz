@@ -22,7 +22,7 @@ public class TagController {
     }
 
     @GetMapping("/top")
-    public List<TagDTO> findMostPopularTagsForQuizzes(@RequestParam String query, @RequestParam List<String> excludedTags, @RequestParam int numberOfResults){
+    public List<TagDTO> findMostPopularTagsForQuizzes(@RequestParam(required = false) String query, @RequestParam(required = false) List<String> excludedTags, @RequestParam int numberOfResults){
        return  tagService.findMostPopularQuizTags(query,excludedTags,numberOfResults);
     }
  }

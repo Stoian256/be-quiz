@@ -1,8 +1,10 @@
 package com.example.bequiz.service;
 
+import com.example.bequiz.domain.AnswerOption;
 import com.example.bequiz.domain.Attempt;
 import com.example.bequiz.domain.AttemptQuestion;
 import com.example.bequiz.domain.Quiz;
+import com.example.bequiz.dto.AddAnswerRequestDTO;
 import com.example.bequiz.dto.AttemptDTO;
 import com.example.bequiz.exception.EntityValidationException;
 import com.example.bequiz.exception.ErrorCode;
@@ -11,6 +13,7 @@ import com.example.bequiz.repository.AttemptQuestionRepository;
 import com.example.bequiz.repository.AttemptRepository;
 import com.example.bequiz.repository.QuizRepository;
 import com.example.bequiz.utils.EntitiesMapper;
+import com.example.bequiz.validation.EntitiesValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import static com.example.bequiz.utils.Constants.ATTEMPT;
-import static com.example.bequiz.utils.Constants.QUIZ;
+import static com.example.bequiz.utils.Constants.*;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +32,7 @@ public class AttemptService {
     private final AnswerOptionRepository answerOptionRepository;
     private final QuizRepository quizRepository;
     private final EntitiesMapper entitiesMapper;
+    private final EntitiesValidator entitiesValidator;
 
     public AttemptDTO startQuiz(UUID quizId) {
         Quiz quiz = quizRepository.findById(quizId)
@@ -75,5 +78,24 @@ public class AttemptService {
     private boolean areAllCorrectAnswersSelected(AttemptQuestion attemptQuestion) {
         return attemptQuestion.getAnswers().stream()
                 .allMatch(answerOption -> answerOption.isCorrectAnswer() == answerOption.isSelected());
+    }
+
+    public void addAnswer(AddAnswerRequestDTO addAnswerRequestDTO) {
+        Attempt attempt = attemptRepository.findById(addAnswerRequestDTO.getAttemptId())
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, ATTEMPT));
+
+        AttemptQuestion attemptQuestion = attempt.getQuestions().stream()
+                .filter(question -> question.getId().equals(addAnswerRequestDTO.getQuestionId()))
+                .findFirst()
+                .orElseThrow(() -> new EntityValidationException(ErrorCode.NOT_FOUND, QUESTION));
+
+        List<UUID> selectedAnswers = addAnswerRequestDTO.getSelectedAnswers();
+        List<AnswerOption> possibleAnswers = attemptQuestion.getAnswers();
+        entitiesValidator.validateSelectedAnswersIds(selectedAnswers,possibleAnswers);
+
+        attemptQuestion.getAnswers().forEach(answerOption -> {
+            answerOption.setSelected(addAnswerRequestDTO.getSelectedAnswers().contains(answerOption.getAnswerOptionId()));
+            answerOptionRepository.save(answerOption);
+        });
     }
 }

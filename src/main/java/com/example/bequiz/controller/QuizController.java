@@ -1,9 +1,6 @@
 package com.example.bequiz.controller;
 
-import com.example.bequiz.dto.AttemptDTO;
-import com.example.bequiz.dto.CreateQuizDTO;
-import com.example.bequiz.dto.QuizDTO;
-import com.example.bequiz.dto.RetrieveQuizDTO;
+import com.example.bequiz.dto.*;
 import com.example.bequiz.service.AttemptService;
 import com.example.bequiz.service.QuizService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -85,8 +82,8 @@ public class QuizController {
             })
     @PostMapping("/start-quiz")
     @PreAuthorize("permitAll()")
-    public AttemptDTO startQuiz(@RequestBody UUID quizId) {
-        return attemptService.startQuiz(quizId);
+    public AttemptDTO startQuiz(@RequestBody StartQuizRequestDTO startQuizRequestDTO) {
+        return attemptService.startQuiz(startQuizRequestDTO.getQuizId());
     }
 
     @Operation(
@@ -96,8 +93,8 @@ public class QuizController {
             })
     @PostMapping("/end-quiz")
     @PreAuthorize("permitAll()")
-    public Double endQuiz(@RequestBody UUID attemptId) {
-        return attemptService.endQuiz(attemptId);
+    public Double endQuiz(@RequestBody EndQuizRequestDTO endQuizRequestDTO) {
+        return attemptService.endQuiz(endQuizRequestDTO.getAttemptId());
     }
 
 }

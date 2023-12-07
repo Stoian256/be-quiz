@@ -63,17 +63,3 @@ stages:
           tags: |
             latest
             $(tag)
-
-- stage: RunContainer
-  displayName: Run container stage
-  jobs:
-    - job: RunContainer
-      displayName: Run Docker container
-      pool:
-        name: QuizPool
-      steps:
-        - task: Docker@2
-          displayName: Run Docker container
-          inputs:
-            containerRegistry: $(dockerRegistryServiceConnection)
-            command: start

@@ -15,8 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.bequiz.utils.Constants.ATTEMPT_QUESTION_ANSWER_NOT_FOUND;
-import static com.example.bequiz.utils.Constants.INVALID_RETRIEVE_PARAMS_MESSAGES;
+import static com.example.bequiz.utils.Constants.*;
 
 
 @RestController
@@ -68,7 +67,7 @@ public class QuizController {
     @Operation(
             responses = {
                     @ApiResponse(responseCode = "200"),
-                    @ApiResponse(responseCode = "400", description = INVALID_RETRIEVE_PARAMS_MESSAGES, content = @Content)
+                    @ApiResponse(responseCode = "400", description = INVALID_PAGINATION_PARAMS_MESSAGES, content = @Content)
             })
     @GetMapping("search-by-tags")
     @PreAuthorize("permitAll()")

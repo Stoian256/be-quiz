@@ -27,6 +27,11 @@ public class Constants {
                     Page index must be greater than or equal to 0!\n
                     You are allowed to search with maximum 7 tags!\n
                     """;
+    public static final String INVALID_PAGINATION_PARAMS_MESSAGES =
+            """
+                    Items per page must be grater then 0!\n
+                    Page index must be greater than or equal to 0!\n
+                    """;
     public static final String UPDATE_QUESTION_BAD_REQUEST_MESSAGES =
             """
                     You must assign at least 2 answers to a question!\n

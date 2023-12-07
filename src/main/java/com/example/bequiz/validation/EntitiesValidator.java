@@ -19,7 +19,9 @@ import static com.example.bequiz.utils.Constants.*;
 public class EntitiesValidator {
 
     public void validateFindAllFilters(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString, List<String> difficulties) {
-        validatePaginationParamsAndTags(itemsPerPage, pageIndex, tagsAsString);
+        validatePaginationParams(itemsPerPage, pageIndex);
+        if (tagsAsString != null && tagsAsString.size() > 7)
+            throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
         if (difficulties != null) try {
             difficulties.forEach(difficulty -> Difficulty.valueOf(difficulty.toUpperCase()));
         } catch (IllegalArgumentException ex) {
@@ -82,13 +84,11 @@ public class EntitiesValidator {
         }
     }
 
-    public void validatePaginationParamsAndTags(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString) {
+    public void validatePaginationParams(Integer itemsPerPage, Integer pageIndex) {
         if (itemsPerPage != null && itemsPerPage < 1)
             throw new EntityValidationException(ErrorCode.INVALID_ITEMS_PER_PAGE);
         if (pageIndex != null && pageIndex < 0)
             throw new EntityValidationException(ErrorCode.INVALID_PAGE_INDEX);
-        if (tagsAsString != null && tagsAsString.size() > 7)
-            throw new EntityValidationException(ErrorCode.INVALID_NUMBER_OF_TAGS);
     }
 
     public void validateSelectedAnswersIds(List<UUID> selectedAnswers, List<AnswerOption> possibleAnswers) {

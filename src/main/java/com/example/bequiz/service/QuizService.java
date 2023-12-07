@@ -122,7 +122,7 @@ public class QuizService {
     }
 
     public Page<RetrieveQuizDTO> searchQuizzesByTags(Integer itemsPerPage, Integer pageIndex, List<String> tagsAsString) {
-        entitiesValidator.validatePaginationParamsAndTags(itemsPerPage, pageIndex, tagsAsString);
+        entitiesValidator.validatePaginationParams(itemsPerPage, pageIndex);
 
         PageRequest pageRequest = (itemsPerPage != null && pageIndex != null) ?
                 PageRequest.of(pageIndex, itemsPerPage) :

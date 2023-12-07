@@ -32,7 +32,7 @@ public class Constants {
                     You must assign at least 2 answers to a question!\n
                     You must assign at least 1 correct answers to a question!\n
                     """;
-    public static final String ATTEMPT_QUESTION_ANSWER_NOT_FOUND=
+    public static final String ATTEMPT_QUESTION_ANSWER_NOT_FOUND =
             """
                     Attempt not found!\n
                     Question not found!\n

@@ -78,7 +78,13 @@ public class QuizController {
         return quizService.searchQuizzesByTags(itemsPerPage, pageIndex, tags);
     }
 
+    @Operation(
+            responses = {
+                    @ApiResponse(responseCode = "200"),
+                    @ApiResponse(responseCode = "404", description = "Quiz not found!", content = @Content)
+            })
     @PostMapping("/start-quiz")
+    @PreAuthorize("permitAll()")
     public AttemptDTO startQuiz(@RequestBody UUID quizId) {
         return attemptService.startQuiz(quizId);
     }

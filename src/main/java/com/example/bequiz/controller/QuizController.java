@@ -1,5 +1,6 @@
 package com.example.bequiz.controller;
 
+import com.example.bequiz.dto.AttemptDTO;
 import com.example.bequiz.dto.CreateQuizDTO;
 import com.example.bequiz.dto.QuizDTO;
 import com.example.bequiz.dto.RetrieveQuizDTO;
@@ -75,5 +76,10 @@ public class QuizController {
     @PreAuthorize("permitAll()")
     public Page<RetrieveQuizDTO> searchQuizzesByTags(@RequestParam(required = false) Integer itemsPerPage, @RequestParam(required = false) Integer pageIndex, @RequestParam(required = false) List<String> tags) {
         return quizService.searchQuizzesByTags(itemsPerPage, pageIndex, tags);
+    }
+
+    @PostMapping("/start-quiz")
+    public AttemptDTO startQuiz(@RequestBody UUID quizId) {
+        return attemptService.startQuiz(quizId);
     }
 }

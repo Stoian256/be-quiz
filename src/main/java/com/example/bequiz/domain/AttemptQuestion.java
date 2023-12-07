@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Data
@@ -32,4 +34,13 @@ public class AttemptQuestion {
     @ToString.Exclude
     @ManyToMany(mappedBy = "questions")
     private List<Attempt> attempts;
+
+    public void addAttempt(Attempt attempt) {
+        attempts = Optional.ofNullable(attempts).orElse(new ArrayList<>());
+
+        if (!attempts.contains(attempt)) {
+            attempts.add(attempt);
+            attempt.addAttemptQuestion(this);
+        }
+    }
 }

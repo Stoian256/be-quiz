@@ -6,8 +6,7 @@ import com.example.bequiz.dto.QuizDTO;
 import com.example.bequiz.dto.RetrieveQuizDTO;
 import com.example.bequiz.exception.EntityValidationException;
 import com.example.bequiz.exception.ErrorCode;
-import com.example.bequiz.repository.QuestionRepository;
-import com.example.bequiz.repository.QuizRepository;
+import com.example.bequiz.repository.*;
 import com.example.bequiz.utils.Difficulty;
 import com.example.bequiz.utils.EntitiesMapper;
 import com.example.bequiz.utils.QuizBooleanBuilder;
@@ -20,10 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.example.bequiz.utils.Constants.QUESTION;

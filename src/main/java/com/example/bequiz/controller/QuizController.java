@@ -3,6 +3,7 @@ package com.example.bequiz.controller;
 import com.example.bequiz.dto.CreateQuizDTO;
 import com.example.bequiz.dto.QuizDTO;
 import com.example.bequiz.dto.RetrieveQuizDTO;
+import com.example.bequiz.service.AttemptService;
 import com.example.bequiz.service.QuizService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,6 +28,7 @@ import static com.example.bequiz.utils.Constants.INVALID_RETRIEVE_PARAMS_MESSAGE
 public class QuizController {
 
     private final QuizService quizService;
+    private final AttemptService attemptService;
 
     @PostMapping("/create")
     public QuizDTO createQuiz(@RequestBody CreateQuizDTO createQuizDTO) {

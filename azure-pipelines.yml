@@ -64,7 +64,7 @@ stages:
             latest
             $(tag)
 
-- stage: Run Container
+- stage: RunContainer
   displayName: Run container stage
   jobs:
     - job: RunContainer

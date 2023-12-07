@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="14_updateAnswerOptionColumns" author="Silviu Stoian" >
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="answer_option"/>
+                <not>
+                    <columnExists tableName="answer_option" columnName="is_correct_answer"/>
+                </not>
+                <not>
+                    <columnExists tableName="answer_option" columnName="is_selected"/>
+                </not>
+            </and>
+        </preConditions>
+        <addColumn tableName="answer_option">
+            <column name="is_correct_answer" type="boolean"/>
+            <column name="is_selected" type="boolean"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

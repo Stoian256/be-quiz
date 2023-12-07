@@ -1,5 +1,6 @@
 package com.example.bequiz.domain;
 
+import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.*;
 import net.minidev.json.annotate.JsonIgnore;
@@ -21,6 +22,8 @@ public class AttemptQuestion {
     private String questionTitle;
 
     private String questionBody;
+
+    private Difficulty difficulty;
 
     @OneToMany(mappedBy = "attemptQuestion", cascade = CascadeType.ALL)
     private List<AnswerOption> answers;

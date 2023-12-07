@@ -19,6 +19,10 @@ public class AnswerOption {
 
     private String answerOptionContent;
 
+    private boolean isCorrectAnswer;
+
+    private boolean isSelected;
+
     @JsonIgnore
     @ToString.Exclude
     @ManyToOne

@@ -12,4 +12,7 @@
     <include file="changelog/11_createAnswerOptionTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/12_createAttemptTable.xml" relativeToChangelogFile="true" />
     <include file="changelog/13_createAttemptQuestionAssociationTable.xml" relativeToChangelogFile="true" />
+    <include file="changelog/14_updateAnswerOptionColumns.xml" relativeToChangelogFile="true" />
+    <include file="changelog/15_updateAttemptQuestionColumns.xml" relativeToChangelogFile="true" />
+    <include file="changelog/16_updateAttemptColumns.xml" relativeToChangelogFile="true" />
 </databaseChangeLog>

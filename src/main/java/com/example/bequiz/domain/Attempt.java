@@ -1,5 +1,6 @@
 package com.example.bequiz.domain;
 
+import com.example.bequiz.utils.Difficulty;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -31,6 +32,10 @@ public class Attempt {
 
     @CreatedDate
     private LocalDateTime startedAt;
+
+    private String quizTitle;
+
+    private Difficulty difficultyLevel;
 
     private int timeLimitMinutes;
 

@@ -1,0 +1,22 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    <changeSet id="16_updateAttemptColumns" author="Silviu Stoian" >
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <tableExists tableName="attempt"/>
+                <not>
+                    <columnExists tableName="attempt" columnName="quiz_title"/>
+                </not>
+                <not>
+                    <columnExists tableName="attempt" columnName="difficulty_level"/>
+                </not>
+            </and>
+        </preConditions>
+        <addColumn tableName="attempt">
+            <column name="quiz_title" type="varchar(255)"/>
+            <column name="difficulty_level" type="smallint"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
